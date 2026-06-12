@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,26 +11,22 @@ import { Input } from "@/components/ui/input";
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col gap-6 p-4">
-      <header className="space-y-1 pt-4">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">
-          RoadieFlow
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Shell M0 — design system base
-        </p>
-      </header>
+    <main className="flex flex-1 flex-col gap-8 pb-8">
+      <PageHeader
+        title="RoadieFlow"
+        description="Shell M0 — Tactical Elegance"
+      />
 
-      <Card>
+      <Card className="editorial-offset mr-6 border-t-2 border-[var(--primary)] ambient-shadow">
         <CardHeader>
           <CardTitle>Bienvenido</CardTitle>
           <CardDescription>
-            Preview del tema mobile-first con shadcn/ui.
+            Preview del tema editorial con glass depth y tipografía táctica.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Input placeholder="Buscar evento o ciudad…" />
-          <Button className="min-h-11 w-full" size="lg">
+          <Button className="w-full" size="lg">
             Explorar
           </Button>
         </CardContent>

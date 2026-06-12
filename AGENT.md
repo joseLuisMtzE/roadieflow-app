@@ -9,7 +9,8 @@ Guía para agentes de IA que trabajan en **roadie-flow-app**.
 - **Producto:** RoadieFlow — app móvil para roadies (Meta de crecimiento / Reservamos).
 - **Milestone actual:** M0 · Shell — navegación móvil desplegable.
 - **Idioma UI:** español (`lang="es"`).
-- **Docs humanas:** [`docs/`](./docs/README.md) · **Diseño:** [`DESIGN.md`](./DESIGN.md)
+- **Design system:** Tactical Elegance — ver [`DESIGN.md`](./DESIGN.md).
+- **Docs humanas:** [`docs/`](./docs/README.md)
 
 ## Stack
 
@@ -34,16 +35,14 @@ Guía para agentes de IA que trabajan en **roadie-flow-app**.
 ```
 app/
   layout.tsx          # Root: metadata, viewport, fuentes
-  globals.css         # Tokens RoadieFlow + Tailwind
+  globals.css         # Tokens Tactical Elegance + Tailwind
   (shell)/            # Rutas core con bottom nav
-    layout.tsx
-    page.tsx          # /
-    itinerary/ events/ profile/
 components/
-  bottom-nav.tsx      # Client Component — navegación inferior
+  bottom-nav.tsx      # Client — navegación glass
+  page-header.tsx     # Títulos con offset editorial
   ui/                 # shadcn/ui (Button, Card, Input…)
-lib/utils.ts          # cn()
-docs/                 # Documentación extendida
+lib/utils.ts
+docs/
 ```
 
 - Código en **raíz** (`app/`), no en `src/` (decisión M0).
@@ -54,71 +53,54 @@ docs/                 # Documentación extendida
 ```bash
 corepack enable
 yarn install
-yarn dev              # http://localhost:3000
+yarn dev
 yarn build
-yarn lint             # ESLint
-yarn lint:fix
-yarn format           # Prettier
-yarn format:check     # Usado en CI
+yarn lint && yarn format:check
 ```
 
-Añadir componente shadcn:
-
-```bash
-yarn dlx shadcn@latest add <nombre> -y
-```
-
-Config en [`components.json`](./components.json).
+Añadir componente shadcn: `yarn dlx shadcn@latest add <nombre> -y`
 
 ## Patrones y convenciones
 
+### Diseño (Tactical Elegance)
+
+- Tema **dark editorial** por defecto (`#131313` background).
+- **No-Line Rule:** no bordes 1px sólidos — usar ghost borders, tonal shifts, glass.
+- Tipografía: **Space Grotesk** (headlines), **Inter** (body), **Share Tech Mono** (labels).
+- Utilidades: `.text-headline-mobile`, `.editorial-offset`, `.glass-nav`, `.btn-primary-gradient`.
+- Ver checklist completo en `DESIGN.md` sección 7.
+
 ### App Router
 
-- Server Components por defecto; `"use client"` solo cuando haga falta (hooks, eventos, `usePathname`).
-- Metadata y `viewport` en `app/layout.tsx`.
-- Rutas core van bajo `app/(shell)/` para heredar bottom nav.
+- Server Components por defecto; `"use client"` solo para hooks/eventos.
+- Rutas core bajo `app/(shell)/` para heredar bottom nav.
 
 ### Componentes UI
 
-- Usar shadcn en `components/ui/` — no reinventar primitivos.
-- Componer con tokens semánticos: `bg-primary`, `text-muted-foreground`, etc.
-- Iconos: **Lucide React** (`lucide-react`).
+- shadcn en `components/ui/` — extender variantes, no reinventar.
+- Tokens semánticos: `bg-primary`, `text-muted-foreground`, etc.
+- Iconos: **Lucide React**.
 
 ### Estilos
 
-- Mobile-first; contenedor típico `max-w-md` (~375px).
-- Touch targets mínimo **44×44px** en controles interactivos (`min-h-11 min-w-11`).
-- Safe area iOS: `env(safe-area-inset-bottom)`.
-- Evitar scroll horizontal: `overflow-x-hidden` en shell.
-
-### TypeScript
-
-- Modo `strict` — no usar `any` sin justificación.
-- Props tipadas; preferir tipos de React (`React.ComponentProps<"div">`).
-
-### Calidad de código
-
-- Pre-commit: Husky + lint-staged (ESLint + Prettier).
-- CI: `.github/workflows/ci.yml` — lint, format check, build.
-- Ejecuta `yarn lint && yarn format:check && yarn build` antes de dar por terminado un cambio grande.
+- Mobile-first; `max-w-md` (~375px).
+- Touch targets ≥ **44×44px** (`min-h-11 min-w-11`).
+- Safe area: `env(safe-area-inset-bottom)`.
 
 ## Restricciones
 
-- **No** cambiar gestor de paquetes (mantener Yarn 4).
-- **No** migrar a `src/` sin acuerdo explícito.
-- **No** hardcodear colores hex/rgb — usar tokens CSS / clases semánticas (ver `DESIGN.md`).
-- **No** commitear `.env.local` ni secrets.
-- **No** crear commits ni push sin que el usuario lo pida.
-- Cambios mínimos y enfocados — no refactorizar código no relacionado.
+- **No** cambiar gestor de paquetes (Yarn 4).
+- **No** migrar a `src/` sin acuerdo.
+- **No** hardcodear colores — usar tokens CSS (ver `DESIGN.md` / `globals.css`).
+- **No** commits ni push sin que el usuario lo pida.
+- Cambios mínimos y enfocados.
 
 ## Referencias
 
-| Recurso                 | Ubicación                                          |
-| ----------------------- | -------------------------------------------------- |
-| Setup local             | [`docs/setup.md`](./docs/setup.md)                 |
-| Arquitectura            | [`docs/architecture.md`](./docs/architecture.md)   |
-| Design system (detalle) | [`docs/design-system.md`](./docs/design-system.md) |
-| Navegación móvil        | [`docs/navigation.md`](./docs/navigation.md)       |
-| Deploy / Vercel         | [`docs/deploy.md`](./docs/deploy.md)               |
-| shadcn config           | [`components.json`](./components.json)             |
-| Tokens CSS              | [`app/globals.css`](./app/globals.css)             |
+| Recurso       | Ubicación                                          |
+| ------------- | -------------------------------------------------- |
+| Diseño        | [`DESIGN.md`](./DESIGN.md)                         |
+| Design system | [`docs/design-system.md`](./docs/design-system.md) |
+| Navegación    | [`docs/navigation.md`](./docs/navigation.md)       |
+| Tokens CSS    | [`app/globals.css`](./app/globals.css)             |
+| shadcn config | [`components.json`](./components.json)             |

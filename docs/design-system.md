@@ -1,7 +1,10 @@
 # Design system
 
-> Detalle técnico del design system: [`docs/design-system.md`](./docs/design-system.md)  
-> Principios y criterios UX: [`DESIGN.md`](../DESIGN.md) (raíz del repo)
+> **Fuente de verdad:** [`DESIGN.md`](../DESIGN.md) — sistema **Tactical Elegance**  
+> Tokens en código: [`app/globals.css`](../app/globals.css)  
+> Config shadcn: [`components.json`](../components.json)
+
+RoadieFlow usa **shadcn/ui** (`base-nova`) sobre **Tailwind CSS 4** con tokens **Tactical Elegance** (dark editorial por defecto).
 
 ## shadcn/ui
 
@@ -16,60 +19,67 @@
 yarn dlx shadcn@latest add <componente> -y
 ```
 
-Ejemplo:
-
-```bash
-yarn dlx shadcn@latest add badge dialog -y
-```
-
 ### Componentes instalados (M0)
 
-| Componente | Ruta                       |
-| ---------- | -------------------------- |
-| Button     | `components/ui/button.tsx` |
-| Card       | `components/ui/card.tsx`   |
-| Input      | `components/ui/input.tsx`  |
+| Componente | Ruta                       | Notas Tactical Elegance        |
+| ---------- | -------------------------- | ------------------------------ |
+| Button     | `components/ui/button.tsx` | Pill, gradient primary, glass  |
+| Card       | `components/ui/card.tsx`   | `rounded-3xl`, sin ring/border |
+| Input      | `components/ui/input.tsx`  | Recessed well, ghost border    |
 
-## Tokens RoadieFlow
+## Tokens Tactical Elegance
 
-Definidos en `app/globals.css`. Los tokens de marca se mapean a variables semánticas de shadcn:
+Definidos en `app/globals.css` (ver YAML en `DESIGN.md`).
 
-| Token de marca                | Uso                         | Valor (light)                            |
-| ----------------------------- | --------------------------- | ---------------------------------------- |
-| `--roadie-primary`            | Acciones principales, links | `oklch(0.48 0.21 277)` — índigo/violeta  |
-| `--roadie-primary-foreground` | Texto sobre primary         | `oklch(0.98 0.01 277)`                   |
-| `--roadie-accent`             | Acentos secundarios         | `oklch(0.72 0.17 162)` — verde esmeralda |
-| `--roadie-surface`            | Fondo de app                | `oklch(0.985 0.005 277)`                 |
+### Superficies
 
-### Mapeo a shadcn
+| Token CSS                    | Hex       | Uso                |
+| ---------------------------- | --------- | ------------------ |
+| `--surface` / `--background` | `#131313` | Base de la app     |
+| `--surface-container-lowest` | `#0e0e0e` | Inputs recessed    |
+| `--surface-container-low`    | `#1c1b1b` | Secciones, muted   |
+| `--surface-container`        | `#201f1f` | Áreas de contenido |
+| `--surface-container-high`   | `#2a2a2a` | Cards (`--card`)   |
+| `--surface-bright`           | `#3a3939` | Glass overlays     |
+
+### Marca y texto
+
+| Token CSS                                     | Hex       | Uso shadcn             |
+| --------------------------------------------- | --------- | ---------------------- |
+| `--primary`                                   | `#e3e3db` | CTA, nav activo        |
+| `--primary-foreground`                        | `#2f312b` | Texto sobre primary    |
+| `--on-surface` / `--foreground`               | `#e5e2e1` | Texto principal        |
+| `--on-surface-variant` / `--muted-foreground` | `#c7c7bf` | Texto secundario       |
+| `--outline-variant`                           | `#464741` | Ghost borders (15–40%) |
+
+### Ghost borders
+
+No usar bordes sólidos 1px. Usar:
 
 ```css
---primary: var(--roadie-primary);
---primary-foreground: var(--roadie-primary-foreground);
---background: var(--roadie-surface);
-```
-
-Usa clases semánticas de Tailwind en componentes:
-
-```tsx
-<button className="bg-primary text-primary-foreground">Acción</button>
-<p className="text-muted-foreground">Texto secundario</p>
+box-shadow: inset 0 0 0 1px var(--ghost-border); /* 15% */
+box-shadow: inset 0 0 0 1px var(--ghost-border-focus); /* 40% focus */
 ```
 
 ## Tipografía
 
-- **Sans / heading:** Geist Sans (`--font-geist-sans`)
-- **Mono:** Geist Mono (`--font-geist-mono`)
-- Cargadas en `app/layout.tsx` vía `next/font/google`
+| Capa      | Fuente          | Variable                 | Clase utilidad                                 |
+| --------- | --------------- | ------------------------ | ---------------------------------------------- |
+| Editorial | Space Grotesk   | `--font-space-grotesk`   | `font-heading`, `.text-headline-mobile`        |
+| Funcional | Inter           | `--font-inter`           | `font-sans`, `.text-body-md`, `.text-title-lg` |
+| Técnica   | Share Tech Mono | `--font-share-tech-mono` | `font-mono`, `.text-label-md`                  |
 
-## Tema oscuro
+Cargadas en `app/layout.tsx` vía `next/font/google`.
 
-Soporte via clase `.dark` en `<html>`. Tokens dark definidos en `app/globals.css` bajo `.dark { ... }`.
+## Utilidades CSS
 
-## Radios y espaciado
-
-- `--radius: 0.625rem` (10px base)
-- Variantes derivadas: `--radius-sm`, `--radius-md`, `--radius-lg`, etc.
+| Clase                   | Propósito                          |
+| ----------------------- | ---------------------------------- |
+| `.editorial-offset`     | Margen izquierdo 2rem en headlines |
+| `.glass-nav`            | Bottom nav con blur                |
+| `.glass-surface`        | Botón secondary glass              |
+| `.ambient-shadow`       | Sombra difusa flotante             |
+| `.btn-primary-gradient` | Gradiente CTA primary              |
 
 ## Ejemplo de uso
 
@@ -77,14 +87,17 @@ Soporte via clase `.dark` en `<html>`. Tokens dark definidos en `app/globals.css
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { PageHeader } from "@/components/page-header";
 
-<Card>
+<PageHeader title="Itinerario" description="Próximamente." />
+
+<Card className="editorial-offset mr-6 border-t-2 border-[var(--primary)] ambient-shadow">
   <CardHeader>
-    <CardTitle>Título</CardTitle>
+    <CardTitle>Próximo set</CardTitle>
   </CardHeader>
   <CardContent className="space-y-4">
     <Input placeholder="Buscar…" />
-    <Button className="w-full">Continuar</Button>
+    <Button className="w-full" size="lg">Continuar</Button>
   </CardContent>
-</Card>;
+</Card>
 ```

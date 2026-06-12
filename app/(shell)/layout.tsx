@@ -7,7 +7,7 @@ export default function ShellLayout({
 }>) {
   return (
     <>
-      <div className="mx-auto flex w-full max-w-md flex-1 flex-col overflow-x-hidden pb-[calc(3.5rem+env(safe-area-inset-bottom))]">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col overflow-x-hidden bg-background pb-[calc(4.5rem+env(safe-area-inset-bottom))]">
         {children}
       </div>
       <BottomNav />
