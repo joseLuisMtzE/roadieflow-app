@@ -11,7 +11,7 @@ Mini-MVP del shell desplegable de RoadieFlow. Objetivo: demo con navegación mó
 | 1    | [Bootstrap Next.js + TypeScript strict](https://app.clickup.com/t/86ba56gau) | ✅ Hecho     |
 | 2    | [Tailwind CSS + shadcn/ui](https://app.clickup.com/t/86ba56gaq)              | ✅ Hecho     |
 | 3    | [ESLint + Prettier + lint en PR](https://app.clickup.com/t/86ba56gar)        | ✅ Hecho     |
-| 4    | [Layout móvil + bottom navigation](https://app.clickup.com/t/86ba56gat)      | ⏳ Pendiente |
+| 4    | [Layout móvil + bottom navigation](https://app.clickup.com/t/86ba56gat)      | ✅ Hecho     |
 | 5    | [Vercel preview + variables de entorno](https://app.clickup.com/t/86ba56gap) | ⏳ Pendiente |
 
 ## Fase 1 — Bootstrap ✅
@@ -35,18 +35,12 @@ Mini-MVP del shell desplegable de RoadieFlow. Objetivo: demo con navegación mó
 - GitHub Action (`.github/workflows/ci.yml`) en PR
 - Documentación en `docs/code-quality.md`
 
-## Fase 4 — Bottom navigation ⏳
+## Fase 4 — Bottom navigation ✅
 
-Rutas placeholder:
-
-| Ruta         | Propósito  |
-| ------------ | ---------- |
-| `/`          | Home       |
-| `/itinerary` | Itinerario |
-| `/events`    | Eventos    |
-| `/profile`   | Perfil     |
-
-Criterios: bottom nav persistente, touch targets ≥ 44px, sin scroll horizontal en 375px.
+- Route group `(shell)` con layout compartido
+- Bottom nav fija en `/`, `/itinerary`, `/events`, `/profile`
+- Touch targets ≥ 44px, safe area iOS, sin scroll horizontal
+- Documentación en `docs/navigation.md`
 
 ## Fase 5 — Deploy ⏳
 

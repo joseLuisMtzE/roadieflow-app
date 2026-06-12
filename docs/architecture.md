@@ -17,10 +17,16 @@
 roadie-flow-app/
 ├── app/                 # App Router: layouts, páginas, estilos globales
 │   ├── layout.tsx       # Root layout (metadata, viewport, fuentes)
-│   ├── page.tsx         # Home (/)
-│   └── globals.css      # Tailwind + tokens RoadieFlow
+│   ├── globals.css      # Tailwind + tokens RoadieFlow
+│   └── (shell)/         # Rutas core con bottom nav
+│       ├── layout.tsx
+│       ├── page.tsx     # Home (/)
+│       ├── itinerary/
+│       ├── events/
+│       └── profile/
 ├── components/
-│   └── ui/              # Componentes shadcn/ui (Button, Card, Input…)
+│   ├── bottom-nav.tsx   # Navegación inferior (client)
+│   └── ui/              # Componentes shadcn/ui
 ├── lib/
 │   └── utils.ts         # Utilidad `cn()` (clsx + tailwind-merge)
 ├── docs/                # Documentación del proyecto
@@ -33,7 +39,7 @@ roadie-flow-app/
 
 ### App Router
 
-- Rutas como carpetas en `app/` (ej. `app/itinerary/page.tsx` → `/itinerary`)
+- Rutas como carpetas en `app/(shell)/` (ej. `app/(shell)/itinerary/page.tsx` → `/itinerary`)
 - Layouts compartidos en `app/layout.tsx` o layouts anidados por segmento
 - Metadata y viewport exportados desde layouts (`Metadata`, `Viewport`)
 

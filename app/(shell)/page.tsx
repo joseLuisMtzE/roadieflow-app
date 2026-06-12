@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-6 p-4">
+    <main className="flex flex-1 flex-col gap-6 p-4">
       <header className="space-y-1 pt-4">
         <h1 className="font-heading text-2xl font-semibold tracking-tight">
           RoadieFlow
@@ -29,7 +29,7 @@ export default function Home() {
         </CardHeader>
         <CardContent className="space-y-4">
           <Input placeholder="Buscar evento o ciudad…" />
-          <Button className="w-full" size="lg">
+          <Button className="min-h-11 w-full" size="lg">
             Explorar
           </Button>
         </CardContent>
