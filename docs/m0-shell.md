@@ -13,7 +13,7 @@ Mini-MVP del shell desplegable de RoadieFlow. Objetivo: demo con navegación mó
 | 3    | [ESLint + Prettier + lint en PR](https://app.clickup.com/t/86ba56gar)        | ✅ Hecho |
 | 4    | [Layout móvil + bottom navigation](https://app.clickup.com/t/86ba56gat)      | ✅ Hecho |
 | 5    | [Vercel preview + variables de entorno](https://app.clickup.com/t/86ba56gap) | ✅ Hecho |
-| —    | [AGENT.md + DESIGN.md](https://app.clickup.com/t/86bae3y61)                  | ✅ Hecho |
+| —    | [AGENTS.md + DESIGN.md](https://app.clickup.com/t/86bae3y61)                 | ✅ Hecho |
 | 6    | Tactical Elegance — implementación visual                                    | ✅ Hecho |
 
 ## Fase 1 — Bootstrap ✅
@@ -54,9 +54,9 @@ Mini-MVP del shell desplegable de RoadieFlow. Objetivo: demo con navegación mó
 
 ## Documentación para agentes y diseño ✅
 
-- `AGENT.md` — convenciones, stack, patrones y restricciones para agentes IA
+- `AGENTS.md` — convenciones, stack, patrones y restricciones para agentes IA
 - `DESIGN.md` — principios UX, tokens, componentes y checklist visual
-- `AGENTS.md` / `CLAUDE.md` redirigen a `AGENT.md`
+- `CLAUDE.md` apunta a `AGENTS.md`
 
 ## Fase 6 — Tactical Elegance (código) ✅
 

@@ -16,7 +16,7 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 Toda la documentación del proyecto está en **[docs/](./docs/README.md)**:
 
-- [AGENT.md](./AGENT.md) — guía para agentes de IA
+- [AGENTS.md](./AGENTS.md) — guía para agentes de IA
 - [DESIGN.md](./DESIGN.md) — principios de diseño y tokens
 - [Setup local](./docs/setup.md)
 - [Arquitectura](./docs/architecture.md)

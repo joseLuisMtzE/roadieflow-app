@@ -6,7 +6,7 @@ Guías del proyecto **RoadieFlow** — app móvil para roadies (milestone M0 · 
 
 | Documento                              | Descripción                                     |
 | -------------------------------------- | ----------------------------------------------- |
-| [AGENT.md](../AGENT.md)                | Guía para agentes de IA (convenciones, stack)   |
+| [AGENTS.md](../AGENTS.md)              | Guía para agentes de IA (convenciones, stack)   |
 | [DESIGN.md](../DESIGN.md)              | Principios de diseño, tokens y criterios UX     |
 | [Setup local](./setup.md)              | Requisitos, instalación y scripts               |
 | [Arquitectura](./architecture.md)      | Stack, estructura de carpetas y convenciones    |
