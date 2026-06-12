@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RoadieFlow
 
-## Getting Started
+App móvil para roadies — shell desplegable del milestone M0 (Meta de crecimiento).
 
-First, run the development server:
+## Requisitos
+
+- Node.js 20+
+- [Corepack](https://nodejs.org/api/corepack.html) habilitado (incluido en Node 16.10+)
+
+## Setup local
 
 ```bash
-npm run dev
-# or
+# Habilitar Corepack (solo la primera vez en tu máquina)
+corepack enable
+
+# Instalar dependencias
+yarn install
+
+# Servidor de desarrollo
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando       | Descripción                          |
+|---------------|--------------------------------------|
+| `yarn dev`    | Servidor de desarrollo (Next.js)     |
+| `yarn build`  | Build de producción                  |
+| `yarn start`  | Servidor de producción               |
+| `yarn lint`   | ESLint sobre todo el proyecto        |
+| `yarn lint:fix` | ESLint con auto-fix                |
 
-## Learn More
+## Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 16** — App Router
+- **React 19** — UI
+- **TypeScript** — modo `strict`
+- **Tailwind CSS 4** — estilos
+- **Yarn 4** — gestor de paquetes (vía `packageManager` en `package.json`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/          # App Router (páginas y layouts)
+public/       # Assets estáticos
+```
 
-## Deploy on Vercel
+> El código vive en la raíz del repo (`app/`), no en `src/`, para mantener el bootstrap simple en M0.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Calidad de código
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ESLint con flat config (`eslint.config.mjs`)
+- Husky + lint-staged ejecutan lint en cada pre-commit
