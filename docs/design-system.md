@@ -1,6 +1,7 @@
 # Design system
 
-RoadieFlow usa **shadcn/ui** sobre **Tailwind CSS 4** con tokens de marca propios.
+> Detalle técnico del design system: [`docs/design-system.md`](./docs/design-system.md)  
+> Principios y criterios UX: [`DESIGN.md`](../DESIGN.md) (raíz del repo)
 
 ## shadcn/ui
 
