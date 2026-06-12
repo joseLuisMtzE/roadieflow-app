@@ -10,6 +10,7 @@ Guías del proyecto **RoadieFlow** — app móvil para roadies (milestone M0 · 
 | [Arquitectura](./architecture.md)      | Stack, estructura de carpetas y convenciones    |
 | [Design system](./design-system.md)    | Tokens RoadieFlow, shadcn/ui y componentes base |
 | [Navegación móvil](./navigation.md)    | Bottom nav, rutas core y convenciones           |
+| [Deploy (Vercel)](./deploy.md)         | Preview por PR y variables de entorno           |
 | [Calidad de código](./code-quality.md) | ESLint, Prettier, Husky y CI en PR              |
 | [M0 · Shell](./m0-shell.md)            | Plan del milestone, fases y estado              |
 

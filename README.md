@@ -20,6 +20,7 @@ Toda la documentación del proyecto está en **[docs/](./docs/README.md)**:
 - [Arquitectura](./docs/architecture.md)
 - [Design system](./docs/design-system.md)
 - [Navegación móvil](./docs/navigation.md)
+- [Deploy (Vercel)](./docs/deploy.md)
 - [Calidad de código](./docs/code-quality.md)
 - [M0 · Shell — roadmap](./docs/m0-shell.md)
 

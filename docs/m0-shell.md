@@ -6,13 +6,13 @@ Mini-MVP del shell desplegable de RoadieFlow. Objetivo: demo con navegación mó
 
 ## Fases de implementación
 
-| Fase | Tarea ClickUp                                                                | Estado       |
-| ---- | ---------------------------------------------------------------------------- | ------------ |
-| 1    | [Bootstrap Next.js + TypeScript strict](https://app.clickup.com/t/86ba56gau) | ✅ Hecho     |
-| 2    | [Tailwind CSS + shadcn/ui](https://app.clickup.com/t/86ba56gaq)              | ✅ Hecho     |
-| 3    | [ESLint + Prettier + lint en PR](https://app.clickup.com/t/86ba56gar)        | ✅ Hecho     |
-| 4    | [Layout móvil + bottom navigation](https://app.clickup.com/t/86ba56gat)      | ✅ Hecho     |
-| 5    | [Vercel preview + variables de entorno](https://app.clickup.com/t/86ba56gap) | ⏳ Pendiente |
+| Fase | Tarea ClickUp                                                                | Estado   |
+| ---- | ---------------------------------------------------------------------------- | -------- |
+| 1    | [Bootstrap Next.js + TypeScript strict](https://app.clickup.com/t/86ba56gau) | ✅ Hecho |
+| 2    | [Tailwind CSS + shadcn/ui](https://app.clickup.com/t/86ba56gaq)              | ✅ Hecho |
+| 3    | [ESLint + Prettier + lint en PR](https://app.clickup.com/t/86ba56gar)        | ✅ Hecho |
+| 4    | [Layout móvil + bottom navigation](https://app.clickup.com/t/86ba56gat)      | ✅ Hecho |
+| 5    | [Vercel preview + variables de entorno](https://app.clickup.com/t/86ba56gap) | ✅ Hecho |
 
 ## Fase 1 — Bootstrap ✅
 
@@ -42,11 +42,13 @@ Mini-MVP del shell desplegable de RoadieFlow. Objetivo: demo con navegación mó
 - Touch targets ≥ 44px, safe area iOS, sin scroll horizontal
 - Documentación en `docs/navigation.md`
 
-## Fase 5 — Deploy ⏳
+## Fase 5 — Deploy ✅
 
-- Conectar repo a Vercel
-- Preview automático por PR
-- `.env.example` documentado
+- `.env.example` con variables documentadas
+- `docs/deploy.md` — guía para conectar Vercel y previews por PR
+- CI en GitHub Actions (`.github/workflows/ci.yml`)
+
+> **Paso manual:** conectar el repo en el dashboard de Vercel (ver `docs/deploy.md`).
 
 ## Dependencias entre fases
 
