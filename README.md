@@ -38,13 +38,16 @@ Abre [http://localhost:3000](http://localhost:3000).
 - **React 19** — UI
 - **TypeScript** — modo `strict`
 - **Tailwind CSS 4** — estilos
+- **shadcn/ui** — componentes (Button, Card, Input)
 - **Yarn 4** — gestor de paquetes (vía `packageManager` en `package.json`)
 
 ## Estructura
 
 ```
-app/          # App Router (páginas y layouts)
-public/       # Assets estáticos
+app/              # App Router (páginas y layouts)
+components/ui/    # Componentes shadcn/ui
+lib/              # Utilidades compartidas
+public/           # Assets estáticos
 ```
 
 > El código vive en la raíz del repo (`app/`), no en `src/`, para mantener el bootstrap simple en M0.
