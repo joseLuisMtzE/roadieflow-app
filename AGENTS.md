@@ -87,6 +87,31 @@ Añadir componente shadcn: `yarn dlx shadcn@latest add <nombre> -y`
 - Touch targets ≥ **44×44px** (`min-h-11 min-w-11`).
 - Safe area: `env(safe-area-inset-bottom)`.
 
+### Git y ramas
+
+**Una rama por tarea** de ClickUp. No trabajar directo en `main`.
+
+**Nomenclatura:** `[id]-titulo-de-tarea-corto`
+
+- `[id]` — ID de la tarea en ClickUp (ej. `86ba56gap`)
+- `titulo-de-tarea-corto` — slug breve del título: minúsculas, kebab-case, sin acentos ni caracteres especiales
+
+Ejemplos:
+
+| Tarea ClickUp                         | Rama                        |
+| ------------------------------------- | --------------------------- |
+| Vercel preview + variables de entorno | `86ba56gap-vercel-preview`  |
+| Layout móvil + bottom navigation      | `86ba56gat-bottom-nav`      |
+| ESLint + Prettier + lint en PR        | `86ba56gar-eslint-prettier` |
+
+**Flujo:**
+
+1. `git checkout main && git pull`
+2. `git checkout -b [id]-titulo-de-tarea-corto`
+3. Implementar, commitear
+4. Abrir PR hacia `main` (CI + preview Vercel se disparan automáticamente)
+5. Merge tras aprobación; cerrar la tarea en ClickUp
+
 ## Restricciones
 
 - **No** cambiar gestor de paquetes (Yarn 4).
