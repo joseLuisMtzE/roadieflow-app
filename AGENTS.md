@@ -108,10 +108,10 @@ Ejemplos:
 
 1. `git checkout main && git pull`
 2. `git checkout -b [id]-titulo-de-tarea-corto`
-3. Marcar tarea **in progress** en ClickUp → implementar → **esperar aprobación del usuario**
+3. Marcar tarea **in progress** en ClickUp (o primer `push` a la rama) → implementar → **esperar aprobación del usuario**
 4. **Commit** solo tras aprobación explícita
-5. **PR** solo cuando el usuario lo pida (`git push` + PR hacia `main`)
-6. Merge tras aprobación en GitHub; cerrar la tarea en ClickUp
+5. **PR** solo cuando el usuario lo pida (`git push` + PR hacia `main`) — el workflow `clickup-sync.yml` pasa la tarea a **review**
+6. Merge tras aprobación en GitHub — `clickup-sync.yml` pasa la tarea a **Closed**; activar **Automatically delete head branches** en GitHub para borrar la rama remota
 
 > Regla Cursor: `.cursor/rules/clickup-task-workflow.mdc` (`alwaysApply: true`).
 
@@ -121,7 +121,7 @@ Ejemplos:
 - **No** migrar a `src/` sin acuerdo.
 - **No** hardcodear colores — usar tokens CSS (ver `DESIGN.md` / `globals.css`).
 - **No** commits, push ni PR sin aprobación/petición explícita del usuario (ver flujo ClickUp arriba).
-- **No** marcar tareas ClickUp como review/Closed sin aprobación del usuario.
+- **No** marcar tareas ClickUp como review/Closed manualmente (automatizado por `clickup-sync.yml`).
 - Cambios mínimos y enfocados.
 
 ## Referencias

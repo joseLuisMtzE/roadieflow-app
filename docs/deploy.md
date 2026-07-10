@@ -16,6 +16,23 @@ Vercel crea una URL de preview automática en cada pull request cuando el repo e
 
 El workflow `.github/workflows/ci.yml` corre lint, format check y build en GitHub Actions de forma independiente.
 
+## Sincronización ClickUp ↔ GitHub
+
+El workflow `.github/workflows/clickup-sync.yml` actualiza el estado de la tarea según eventos de Git:
+
+| Evento                                  | Estado ClickUp |
+| --------------------------------------- | -------------- |
+| `push` a rama `[id]-*` (sin PR abierto) | in progress    |
+| PR abierto o actualizado                | review         |
+| PR mergeado a `main`                    | Closed         |
+| PR cerrado sin merge                    | in progress    |
+
+**Requisitos:**
+
+- Rama con prefijo del ID de tarea ClickUp (ej. `86ba56gcx-docker-compose`).
+- Secret `CLICKUP_API_TOKEN` en **Settings → Secrets and variables → Actions** (repository secret).
+- **Settings → General → Pull Requests → Automatically delete head branches** para borrar ramas tras merge.
+
 ## Variables de entorno
 
 Ver [`.env.example`](../.env.example) en la raíz del repo.

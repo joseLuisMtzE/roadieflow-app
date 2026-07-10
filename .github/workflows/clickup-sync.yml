@@ -1,0 +1,99 @@
+name: ClickUp sync
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve ClickUp task ID from branch
+        id: task
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          TASK_ID=$(echo "$BRANCH" | grep -oE '^[a-z0-9]+' || true)
+          echo "id=$TASK_ID" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if branch has no ClickUp task ID
+        if: steps.task.outputs.id == ''
+        run: echo "Branch '${{ steps.task.outputs.branch }}' has no ClickUp task ID prefix; skipping."
+
+      - name: Set status — in progress (push, no open PR)
+        if: >-
+          github.event_name == 'push' &&
+          steps.task.outputs.id != ''
+        env:
+          CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          TASK_ID: ${{ steps.task.outputs.id }}
+        run: |
+          OPEN_PR_COUNT=$(gh pr list \
+            --repo "${{ github.repository }}" \
+            --head "${{ steps.task.outputs.branch }}" \
+            --state open \
+            --json number \
+            --jq 'length')
+
+          if [ "$OPEN_PR_COUNT" -gt 0 ]; then
+            echo "Open PR exists for branch; leaving status unchanged."
+            exit 0
+          fi
+
+          curl -sf -X PUT "https://api.clickup.com/api/v2/task/${TASK_ID}" \
+            -H "Authorization: ${CLICKUP_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"status":"in progress"}'
+
+      - name: Set status — review (PR open or updated)
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.action != 'closed' &&
+          steps.task.outputs.id != ''
+        env:
+          CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+          TASK_ID: ${{ steps.task.outputs.id }}
+        run: |
+          curl -sf -X PUT "https://api.clickup.com/api/v2/task/${TASK_ID}" \
+            -H "Authorization: ${CLICKUP_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"status":"review"}'
+
+      - name: Set status — Closed (PR merged)
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.action == 'closed' &&
+          github.event.pull_request.merged == true &&
+          steps.task.outputs.id != ''
+        env:
+          CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+          TASK_ID: ${{ steps.task.outputs.id }}
+        run: |
+          curl -sf -X PUT "https://api.clickup.com/api/v2/task/${TASK_ID}" \
+            -H "Authorization: ${CLICKUP_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"status":"Closed"}'
+
+      - name: Set status — in progress (PR closed without merge)
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.action == 'closed' &&
+          github.event.pull_request.merged == false &&
+          steps.task.outputs.id != ''
+        env:
+          CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+          TASK_ID: ${{ steps.task.outputs.id }}
+        run: |
+          curl -sf -X PUT "https://api.clickup.com/api/v2/task/${TASK_ID}" \
+            -H "Authorization: ${CLICKUP_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"status":"in progress"}'
