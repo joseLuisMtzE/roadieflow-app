@@ -1,0 +1,52 @@
+// RoadieFlow — modelo de datos v1 (M1)
+// Design Doc: Artist → Event → Logistics
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Artist {
+  id     String  @id @default(cuid())
+  name   String
+  genre  String?
+  events Event[]
+}
+
+model Event {
+  id           String      @id @default(cuid())
+  title        String
+  date         DateTime
+  locationName String
+  city         String
+  artistId     String
+  artist       Artist      @relation(fields: [artistId], references: [id])
+  logistics    Logistics[]
+}
+
+model Logistics {
+  id        String        @id @default(cuid())
+  type      LogisticsType
+  status    Status        @default(PENDIENTE)
+  details   Json
+  startTime DateTime
+  eventId   String
+  event     Event         @relation(fields: [eventId], references: [id])
+}
+
+enum LogisticsType {
+  VUELO
+  HOTEL
+  TRASLADO
+}
+
+enum Status {
+  PENDIENTE
+  CONFIRMADO
+  COMPLETADO
+  CANCELADO
+}

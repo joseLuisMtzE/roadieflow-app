@@ -1,0 +1,39 @@
+---
+description: Flujo obligatorio para tareas ClickUp — implementar, aprobar, commit, PR
+alwaysApply: true
+---
+
+# Flujo de tareas ClickUp
+
+Cuando el usuario pida implementar una tarea por ID de ClickUp (ej. `86ba56gc6`), seguir **este orden sin saltar pasos**:
+
+## 1. Implementar
+
+- Crear rama `[id]-titulo-corto` desde `main`.
+- Marcar la tarea en ClickUp como **in progress** (solo eso).
+- Implementar los criterios de aceptación.
+- **Parar aquí** y presentar el resultado al usuario para revisión.
+
+## 2. Esperar aprobación
+
+- **No** hacer `git commit` hasta que el usuario apruebe explícitamente.
+- **No** marcar la tarea como **review** ni **Closed** en ClickUp.
+- **No** hacer `git push`.
+- **No** abrir PR.
+
+Frases que cuentan como aprobación para commit: "aprobado", "haz commit", "commitea", "se ve bien, commit".
+
+## 3. Commit (solo tras aprobación)
+
+- Commitear en la rama de la tarea.
+- **No** hacer push salvo que el usuario lo pida.
+
+## 4. PR (solo cuando el usuario lo indique)
+
+- Push + PR solo con petición explícita: "abre PR", "haz push", etc.
+- Merge y cierre en ClickUp quedan fuera del alcance del agente salvo petición explícita.
+
+## Prohibido
+
+- Decir que una tarea está "hecha" o "lista" si no hay commit aprobado (o el usuario aún no revisó).
+- Adelantar commit, push, PR o cambio de estado en ClickUp más allá de **in progress**.

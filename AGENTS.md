@@ -104,20 +104,24 @@ Ejemplos:
 | Layout móvil + bottom navigation      | `86ba56gat-bottom-nav`      |
 | ESLint + Prettier + lint en PR        | `86ba56gar-eslint-prettier` |
 
-**Flujo:**
+**Flujo (por tarea ClickUp):**
 
 1. `git checkout main && git pull`
 2. `git checkout -b [id]-titulo-de-tarea-corto`
-3. Implementar, commitear
-4. Abrir PR hacia `main` (CI + preview Vercel se disparan automáticamente)
-5. Merge tras aprobación; cerrar la tarea en ClickUp
+3. Marcar tarea **in progress** en ClickUp → implementar → **esperar aprobación del usuario**
+4. **Commit** solo tras aprobación explícita
+5. **PR** solo cuando el usuario lo pida (`git push` + PR hacia `main`)
+6. Merge tras aprobación en GitHub; cerrar la tarea en ClickUp
+
+> Regla Cursor: `.cursor/rules/clickup-task-workflow.mdc` (`alwaysApply: true`).
 
 ## Restricciones
 
 - **No** cambiar gestor de paquetes (Yarn 4).
 - **No** migrar a `src/` sin acuerdo.
 - **No** hardcodear colores — usar tokens CSS (ver `DESIGN.md` / `globals.css`).
-- **No** commits ni push sin que el usuario lo pida.
+- **No** commits, push ni PR sin aprobación/petición explícita del usuario (ver flujo ClickUp arriba).
+- **No** marcar tareas ClickUp como review/Closed sin aprobación del usuario.
 - Cambios mínimos y enfocados.
 
 ## Referencias
