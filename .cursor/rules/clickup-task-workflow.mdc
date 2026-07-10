@@ -10,14 +10,14 @@ Cuando el usuario pida implementar una tarea por ID de ClickUp (ej. `86ba56gc6`)
 ## 1. Implementar
 
 - Crear rama `[id]-titulo-corto` desde `main`.
-- Marcar la tarea en ClickUp como **in progress** (solo eso).
+- Marcar la tarea en ClickUp como **in progress** (opcional: GitHub Actions lo hace en el primer `push` a la rama).
 - Implementar los criterios de aceptación.
 - **Parar aquí** y presentar el resultado al usuario para revisión.
 
 ## 2. Esperar aprobación
 
 - **No** hacer `git commit` hasta que el usuario apruebe explícitamente.
-- **No** marcar la tarea como **review** ni **Closed** en ClickUp.
+- **No** marcar manualmente la tarea como **review** ni **Closed** en ClickUp (lo hace `.github/workflows/clickup-sync.yml`).
 - **No** hacer `git push`.
 - **No** abrir PR.
 
@@ -36,4 +36,5 @@ Frases que cuentan como aprobación para commit: "aprobado", "haz commit", "comm
 ## Prohibido
 
 - Decir que una tarea está "hecha" o "lista" si no hay commit aprobado (o el usuario aún no revisó).
-- Adelantar commit, push, PR o cambio de estado en ClickUp más allá de **in progress**.
+- Adelantar commit, push o PR sin aprobación del usuario.
+- Marcar manualmente tareas ClickUp como review/Closed (usa la automatización GitHub → ClickUp).
