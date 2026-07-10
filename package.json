@@ -10,9 +10,12 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:validate": "prisma validate",
+    "db:ping": "echo 'SELECT 1;' | prisma db execute --stdin",
     "prepare": "husky"
   },
   "lint-staged": {
