@@ -40,6 +40,28 @@ Abre [http://localhost:3000](http://localhost:3000).
 | `yarn format`       | Prettier — formatea archivos                          |
 | `yarn format:check` | Prettier — verifica formato sin modificar             |
 
+## Base de datos (M1+)
+
+Requiere Postgres local y `.env.local` (copia desde `.env.example`).
+
+| Variable              | Requerida | Descripción                         |
+| --------------------- | --------- | ----------------------------------- |
+| `DATABASE_URL`        | Sí        | Conexión PostgreSQL para Prisma     |
+| `SEED_DEMO_DATA`      | Para seed | Debe ser `true` para `yarn db:seed` |
+| `NEXT_PUBLIC_APP_URL` | No        | URL pública (preview/prod)          |
+
+```bash
+cp .env.example .env.local
+yarn db:up
+yarn db:migrate
+yarn db:seed
+yarn db:ping
+```
+
+Tras cambios en `schema.prisma`: `yarn db:generate` y reinicia `yarn dev` (o borra `.next`).
+
+Variables en Vercel: ver [deploy.md](./deploy.md).
+
 ## Problemas comunes
 
 ### Corepack no reconoce Yarn 4

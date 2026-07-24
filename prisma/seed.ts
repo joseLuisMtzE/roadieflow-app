@@ -16,9 +16,25 @@ if (!connectionString) {
 }
 
 const pool = new Pool({ connectionString });
+pool.on("error", (error) => {
+  console.error("Unexpected idle PostgreSQL client error", error);
+});
 const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
+function assertSeedAllowed(): void {
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Refusing to run the destructive demo seed in production");
+  }
+  if (process.env.SEED_DEMO_DATA !== "true") {
+    throw new Error(
+      "Set SEED_DEMO_DATA=true in .env.local to run the destructive demo seed",
+    );
+  }
+}
+
 async function main() {
+  assertSeedAllowed();
+
   await prisma.logistics.deleteMany();
   await prisma.event.deleteMany();
   await prisma.artist.deleteMany();

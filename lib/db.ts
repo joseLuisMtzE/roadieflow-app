@@ -15,6 +15,12 @@ function createPrismaClient(): PrismaClient {
   }
 
   const pool = globalForPrisma.pool ?? new Pool({ connectionString });
+  if (!globalForPrisma.pool) {
+    pool.on("error", (error) => {
+      console.error("Unexpected idle PostgreSQL client error", error);
+    });
+  }
+
   if (process.env.NODE_ENV !== "production") {
     globalForPrisma.pool = pool;
   }
