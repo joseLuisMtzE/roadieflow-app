@@ -31,7 +31,7 @@ model Event {
 model Logistics {
   id        String        @id @default(cuid())
   type      LogisticsType
-  status    Status        @default(PENDIENTE)
+  status    Status        @default(PENDING)
   details   Json
   startTime DateTime
   eventId   String
@@ -39,14 +39,14 @@ model Logistics {
 }
 
 enum LogisticsType {
-  VUELO
+  FLIGHT
   HOTEL
-  TRASLADO
+  TRANSFER
 }
 
 enum Status {
-  PENDIENTE
-  CONFIRMADO
-  COMPLETADO
-  CANCELADO
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELED
 }
