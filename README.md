@@ -18,6 +18,7 @@ Toda la documentación del proyecto está en **[docs/](./docs/README.md)**:
 
 - [AGENTS.md](./AGENTS.md) — guía para agentes de IA
 - [DESIGN.md](./DESIGN.md) — principios de diseño y tokens
+- [OpenSpec](./docs/openspec.md) — spec-driven development
 - [Setup local](./docs/setup.md)
 - [Arquitectura](./docs/architecture.md)
 - [Design system](./docs/design-system.md)

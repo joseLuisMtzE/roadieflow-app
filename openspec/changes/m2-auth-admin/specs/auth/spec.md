@@ -1,0 +1,99 @@
+# Delta for Auth
+
+## ADDED Requirements
+
+### Requirement: User model with roles
+
+The system SHALL persist users with email, password hash, and role.
+
+#### Scenario: Role enum
+
+- GIVEN a user record
+- WHEN role is assigned
+- THEN the value MUST be one of: ADMIN, TOUR_MANAGER, ROAD_STAFF, ARTIST
+
+### Requirement: Credential login
+
+The system SHALL authenticate users via email and password using Auth.js Credentials provider.
+
+#### Scenario: Valid credentials
+
+- GIVEN a user exists with matching email and password
+- WHEN the user submits the login form
+- THEN a valid session is created
+- AND the session includes the user's role
+
+#### Scenario: Invalid credentials
+
+- GIVEN incorrect email or password
+- WHEN the user submits the login form
+- THEN no session is created
+- AND an error message is shown to the user
+
+### Requirement: Logout
+
+The system SHALL allow authenticated users to end their session.
+
+#### Scenario: Sign out
+
+- GIVEN an authenticated session
+- WHEN the user signs out
+- THEN the session is invalidated
+- AND subsequent requests are treated as unauthenticated
+
+### Requirement: Protected app routes
+
+The system SHALL require authentication for all routes under `(shell)`.
+
+#### Scenario: Unauthenticated access
+
+- GIVEN no active session
+- WHEN the user navigates to `/`, `/itinerary`, `/events`, or `/profile`
+- THEN the user is redirected to `/login`
+
+#### Scenario: Authenticated access
+
+- GIVEN a valid session
+- WHEN the user navigates to a protected route
+- THEN the page renders normally
+
+### Requirement: Public login route
+
+The system SHALL expose `/login` without authentication and without bottom navigation.
+
+#### Scenario: Login page layout
+
+- GIVEN an unauthenticated user
+- WHEN the user opens `/login`
+- THEN a mobile-friendly login form is shown
+- AND bottom navigation is NOT displayed
+
+### Requirement: Post-login redirect
+
+The system SHALL redirect to `/itinerary` after successful login.
+
+#### Scenario: Successful login redirect
+
+- GIVEN valid credentials on `/login`
+- WHEN authentication succeeds
+- THEN the user is redirected to `/itinerary`
+
+### Requirement: Demo admin user
+
+The system SHALL seed at least one admin user for local development and E2E tests.
+
+#### Scenario: Seed admin
+
+- GIVEN `SEED_DEMO_DATA=true`
+- WHEN the seed script runs
+- THEN an admin user is created with known credentials documented in `.env.example`
+
+### Requirement: E2E login test
+
+The system SHALL include a Playwright test that verifies the login flow in CI.
+
+#### Scenario: Login E2E
+
+- GIVEN the app is running with seeded test user
+- WHEN Playwright navigates to a protected route
+- THEN it is redirected to login, submits credentials, and reaches `/itinerary`
