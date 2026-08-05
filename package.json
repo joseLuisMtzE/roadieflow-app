@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "prisma migrate deploy && tsx prisma/bootstrap-preview.ts && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -17,6 +18,7 @@
     "db:validate": "prisma validate",
     "db:ping": "echo 'SELECT 1;' | prisma db execute --stdin",
     "db:seed": "prisma db seed",
+    "db:bootstrap-preview": "tsx prisma/bootstrap-preview.ts",
     "openspec": "openspec",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
