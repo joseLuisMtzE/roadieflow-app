@@ -7120,6 +7120,7 @@ __metadata:
     tsx: "npm:^4.23.1"
     tw-animate-css: "npm:^1.4.0"
     typescript: "npm:^5"
+    zod: "npm:^4.4.3"
   languageName: unknown
   linkType: soft
 
