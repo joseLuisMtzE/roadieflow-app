@@ -50,7 +50,7 @@ Tras conectar Neon y añadir las 3 vars manuales, los deploys de PR deberían pa
 1. [vercel.com/new](https://vercel.com/new) → importa `roadieflow-app`
 2. Framework: **Next.js**
 3. Install: `corepack enable && yarn install --immutable`
-4. Build: dejar default (Vercel usa `vercel-build` del `package.json`)
+4. Build: dejar default — `vercel.json` fuerza `yarn vercel-build` (migrate + bootstrap + build)
 
 ## Preview por PR
 
