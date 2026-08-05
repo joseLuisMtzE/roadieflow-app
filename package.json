@@ -18,6 +18,8 @@
     "db:ping": "echo 'SELECT 1;' | prisma db execute --stdin",
     "db:seed": "prisma db seed",
     "openspec": "openspec",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "postinstall": "prisma generate",
     "prepare": "husky"
   },
@@ -49,6 +51,7 @@
   },
   "devDependencies": {
     "@fission-ai/openspec": "^1.7.0",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",

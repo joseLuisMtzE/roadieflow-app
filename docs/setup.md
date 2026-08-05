@@ -44,11 +44,14 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 Requiere Postgres local y `.env.local` (copia desde `.env.example`).
 
-| Variable              | Requerida | Descripción                         |
-| --------------------- | --------- | ----------------------------------- |
-| `DATABASE_URL`        | Sí        | Conexión PostgreSQL para Prisma     |
-| `SEED_DEMO_DATA`      | Para seed | Debe ser `true` para `yarn db:seed` |
-| `NEXT_PUBLIC_APP_URL` | No        | URL pública (preview/prod)          |
+| Variable              | Requerida | Descripción                                 |
+| --------------------- | --------- | ------------------------------------------- |
+| `DATABASE_URL`        | Sí        | Conexión PostgreSQL para Prisma             |
+| `SEED_DEMO_DATA`      | Para seed | Debe ser `true` para `yarn db:seed`         |
+| `SEED_ADMIN_EMAIL`    | Para seed | Email del admin demo (ver `.env.example`)   |
+| `SEED_ADMIN_PASSWORD` | Para seed | Password del admin demo                     |
+| `AUTH_SECRET`         | Sí (auth) | Secreto Auth.js (`openssl rand -base64 32`) |
+| `NEXT_PUBLIC_APP_URL` | No        | URL pública (preview/prod)                  |
 
 ```bash
 cp .env.example .env.local
@@ -59,6 +62,22 @@ yarn db:ping
 ```
 
 Tras cambios en `schema.prisma`: `yarn db:generate` y reinicia `yarn dev` (o borra `.next`).
+
+## E2E (Playwright)
+
+Requiere Postgres con migraciones y seed aplicados (mismas variables que arriba).
+
+```bash
+yarn playwright install chromium   # solo la primera vez
+yarn db:up
+yarn prisma migrate deploy
+yarn db:seed
+yarn test:e2e
+```
+
+Modo UI para depurar: `yarn test:e2e:ui`.
+
+Variables usadas por los tests: `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` (defaults en `.env.example`).
 
 Variables en Vercel: ver [deploy.md](./deploy.md).
 

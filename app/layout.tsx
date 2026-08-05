@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Share_Tech_Mono, Space_Grotesk } from "next/font/google";
+
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -40,7 +42,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable} ${shareTechMono.variable} h-full overflow-x-hidden antialiased`}
     >
       <body className="flex min-h-dvh flex-col overflow-x-hidden bg-background font-sans text-foreground">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
