@@ -7,7 +7,7 @@ Guía para agentes de IA que trabajan en **roadie-flow-app**.
 ## Proyecto
 
 - **Producto:** RoadieFlow — app móvil para roadies (Meta de crecimiento / Reservamos).
-- **Milestone actual:** M0 · Shell — navegación móvil desplegable.
+- **Milestone actual:** M2 · Auth Admin (M0 Shell y M1 Read-only Itinerary completados).
 - **Idioma UI:** español (`lang="es"`).
 - **Design system:** Tactical Elegance — ver [`DESIGN.md`](./DESIGN.md).
 - **Docs humanas:** [`docs/`](./docs/README.md)
@@ -124,10 +124,22 @@ Ejemplos:
 - **No** marcar tareas ClickUp como review/Closed manualmente (automatizado por `clickup-sync.yml`).
 - Cambios mínimos y enfocados.
 
+## OpenSpec
+
+Spec-driven development con [OpenSpec](https://openspec.dev/). Ver [`docs/openspec.md`](./docs/openspec.md).
+
+- **Specs base:** `openspec/specs/` — comportamiento actual (shell, itinerary, data)
+- **Change activo:** `openspec/changes/m2-auth-admin/` — proposal, design, tasks, delta specs
+- **Comandos Cursor:** `/opsx-propose`, `/opsx-apply`, `/opsx-archive` (ver `.cursor/commands/`)
+- **CLI:** `yarn openspec list`, `yarn openspec validate <change>`
+
+Antes de implementar un milestone, leer `tasks.md` del change y alinear con la tarea ClickUp correspondiente.
+
 ## Referencias
 
 | Recurso       | Ubicación                                          |
 | ------------- | -------------------------------------------------- |
+| OpenSpec      | [`docs/openspec.md`](./docs/openspec.md)           |
 | Diseño        | [`DESIGN.md`](./DESIGN.md)                         |
 | Design system | [`docs/design-system.md`](./docs/design-system.md) |
 | Navegación    | [`docs/navigation.md`](./docs/navigation.md)       |

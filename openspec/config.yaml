@@ -1,0 +1,44 @@
+schema: spec-driven
+
+context: |
+  Producto: RoadieFlow — app móvil para roadies (Meta de crecimiento / Reservamos).
+  Milestone activo: M2 · Auth Admin (M0 Shell y M1 Read-only Itinerary completados).
+  Idioma UI: español (lang="es").
+  Design system: Tactical Elegance — ver DESIGN.md.
+
+  Stack: Next.js 16 App Router, React 19, TypeScript strict, Tailwind CSS 4,
+  shadcn/ui (base-nova), Yarn 4.9.2, Prisma 7 + PostgreSQL (Docker local).
+
+  Estructura: código en raíz (app/, components/, lib/), alias @/*.
+  Rutas core bajo app/(shell)/ con bottom nav. Server Components por defecto.
+
+  Gestión de trabajo:
+  - ClickUp: una rama por tarea [id]-titulo-corto; ver .cursor/rules/clickup-task-workflow.mdc
+  - OpenSpec: specs en openspec/specs/, cambios en openspec/changes/
+  - Cada tarea ClickUp de M2 mapea a una sección en openspec/changes/m2-auth-admin/tasks.md
+
+  Restricciones: no hardcodear colores (tokens CSS), touch targets ≥44px,
+  no commits/push/PR sin aprobación explícita del usuario.
+
+rules:
+  proposal:
+    - Referenciar IDs de tarea ClickUp cuando aplique (ej. 86ba56ggv)
+    - Incluir sección Non-goals si hay alcance explícito fuera del milestone
+  specs:
+    - Usar formato Requirement + Scenario (GIVEN/WHEN/THEN)
+    - Referenciar capabilities existentes en openspec/specs/ antes de crear nuevas
+  design:
+    - Alinear con patrones existentes en app/ y lib/
+    - Documentar variables de entorno nuevas en .env.example
+  tasks:
+    - Una sección por tarea ClickUp con el ID en el título
+    - Checkboxes accionables; máximo ~2h por ítem
+
+operations:
+  apply:
+    guidance:
+      - Seguir flujo ClickUp: implementar → esperar aprobación → commit → PR solo si lo piden
+      - Ejecutar yarn lint && yarn format:check antes de presentar resultado
+  archive:
+    guidance:
+      - Solo archivar cuando el milestone M2 esté mergeado en main y tareas ClickUp cerradas

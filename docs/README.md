@@ -1,6 +1,6 @@
 # Documentación RoadieFlow
 
-Guías del proyecto **RoadieFlow** — app móvil para roadies (milestone M0 · Shell).
+Guías del proyecto **RoadieFlow** — milestone M2 · Auth Admin (M0 y M1 completados).
 
 ## Índice
 
@@ -14,6 +14,7 @@ Guías del proyecto **RoadieFlow** — app móvil para roadies (milestone M0 · 
 | [Navegación móvil](./navigation.md)    | Bottom nav, rutas core y convenciones           |
 | [Deploy (Vercel)](./deploy.md)         | Preview por PR y variables de entorno           |
 | [Calidad de código](./code-quality.md) | ESLint, Prettier, Husky y CI en PR              |
+| [OpenSpec](./openspec.md)              | Spec-driven development, changes y comandos     |
 | [M0 · Shell](./m0-shell.md)            | Plan del milestone, fases y estado              |
 
 ## Enlaces útiles
