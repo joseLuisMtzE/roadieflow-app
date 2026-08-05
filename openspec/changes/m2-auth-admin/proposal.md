@@ -8,7 +8,7 @@ M1 entregó un itinerario read-only público como demo. Para avanzar hacia CRUD 
 - Auth.js v5 con provider Credentials (email + password)
 - Sesión con rol incluido; login y logout funcionales
 - Ruta pública `/login` con formulario móvil (Zod)
-- Middleware que protege rutas `(shell)` — **BREAKING**: `/itinerary` deja de ser público
+- Proxy (`proxy.ts`) que protege rutas `(shell)` — **BREAKING**: `/itinerary` deja de ser público
 - Usuario admin demo en seed
 - Playwright E2E del flujo login en CI
 
@@ -21,14 +21,15 @@ M1 entregó un itinerario read-only público como demo. Para avanzar hacia CRUD 
 ### Modified Capabilities
 
 - `itinerary`: acceso requiere sesión activa (antes público en M1)
+- `shell`: bottom nav solo con sesión; sin sesión redirect a `/login`
 - `data`: nuevo modelo User y tablas de sesión Auth.js
 
 ## Impact
 
 - **Prisma**: migración User + tablas Auth.js; seed extendido
 - **Deps**: `next-auth`, `bcryptjs`, `zod`; dev: `@playwright/test`
-- **App**: `middleware.ts`, `app/login/`, `lib/auth.ts`, `app/api/auth/[...nextauth]/`
-- **Env**: `AUTH_SECRET` en `.env.example`
+- **App**: `proxy.ts`, `app/login/`, `lib/auth.ts`, `app/api/auth/[...nextauth]/`
+- **Env**: `AUTH_SECRET`, `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` en `.env.example`
 - **ClickUp**: 4 tareas M2 (`86ba56ggv`, `86ba56ghr`, `86ba56gjm`, `86ba56gkm`)
 
 ## Non-goals

@@ -20,8 +20,18 @@ The system SHALL authenticate users via email and password using Auth.js Credent
 
 - GIVEN a user exists with matching email and password
 - WHEN the user submits the login form
-- THEN a valid session is created
+- THEN a valid JWT session is created (strategy `jwt`, required for Credentials)
 - AND the session includes the user's role
+
+### Requirement: JWT session strategy
+
+The system SHALL use JWT session strategy when Credentials provider is configured.
+
+#### Scenario: Session after login
+
+- GIVEN successful Credentials authentication
+- WHEN `auth()` is called in a Server Component
+- THEN a valid session with user id, email, and role is returned
 
 #### Scenario: Invalid credentials
 
@@ -85,8 +95,10 @@ The system SHALL seed at least one admin user for local development and E2E test
 #### Scenario: Seed admin
 
 - GIVEN `SEED_DEMO_DATA=true`
+- AND `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are set in environment
 - WHEN the seed script runs
-- THEN an admin user is created with known credentials documented in `.env.example`
+- THEN an admin user is created with those credentials
+- AND the values are documented in `.env.example`
 
 ### Requirement: E2E login test
 
@@ -94,6 +106,7 @@ The system SHALL include a Playwright test that verifies the login flow in CI.
 
 #### Scenario: Login E2E
 
-- GIVEN the app is running with seeded test user
+- GIVEN the app is running with seeded test user (`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`)
 - WHEN Playwright navigates to a protected route
 - THEN it is redirected to login, submits credentials, and reaches `/itinerary`
+- AND protected itinerary content is visible (session active)

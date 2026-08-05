@@ -4,7 +4,7 @@ Brownfield: Next.js 16 App Router, Prisma 7 con adapter pg, rutas en `app/(shell
 
 ## Goals / Non-Goals
 
-**Goals:** Auth.js v5 + Credentials, User/Role en Prisma, login móvil, middleware, E2E login.
+**Goals:** Auth.js v5 + Credentials, User/Role en Prisma, login móvil, proxy de rutas, E2E login.
 
 **Non-Goals:** OAuth, registro UI, RBAC por acción (M3+), protección por rol distinta de "autenticado".
 
@@ -12,13 +12,15 @@ Brownfield: Next.js 16 App Router, Prisma 7 con adapter pg, rutas en `app/(shell
 
 ### Auth.js v5 (next-auth@beta)
 
-- **Por qué:** Estándar en Next.js App Router; integración con middleware y Server Components.
+- **Por qué:** Estándar en Next.js App Router; integración con proxy y Server Components.
 - **Provider:** Credentials (email/password) — suficiente para demo y E2E; OAuth pospone a futuro.
+- **Session strategy:** `session: { strategy: "jwt" }` — **obligatorio** con Credentials; el adapter Prisma no puede usar sesiones en DB para este provider.
 
 ### Prisma adapter
 
-- Usar `@auth/prisma-adapter` con modelos User, Account, Session, VerificationToken.
+- Usar `@auth/prisma-adapter` con modelos User, Account, Session, VerificationToken (persistencia de usuario/cuenta).
 - Enum `Role` en schema Prisma; incluir `role` en JWT/session callbacks.
+- La sesión activa vive en JWT (cookie HttpOnly), no en filas `Session` tras login Credentials.
 
 ### Password hashing
 
@@ -26,9 +28,16 @@ Brownfield: Next.js 16 App Router, Prisma 7 con adapter pg, rutas en `app/(shell
 
 ### Route protection
 
-- **`middleware.ts`** en raíz: matcher para `(shell)` routes (`/`, `/itinerary`, `/events`, `/profile`).
+- **`proxy.ts`** en raíz del proyecto (mismo nivel que `app/`): convención Next.js 16; reemplaza `middleware.ts` deprecado.
+- Export `export function proxy(request: NextRequest)` con matcher para rutas `(shell)` (`/`, `/itinerary`, `/events`, `/profile`).
 - `/login` y `/api/auth/*` excluidos del matcher.
 - Redirect a `/login?callbackUrl=...` si no hay sesión.
+
+### Server-side authorization
+
+- El proxy solo redirige en el boundary de red; **no sustituye** checks en Server Components y funciones de datos.
+- Toda ruta o loader que devuelva datos protegidos debe llamar `auth()` y rechazar sin sesión antes de consultar Prisma.
+- Aplicar en `/itinerary` y futuras rutas con datos sensibles.
 
 ### Login UI
 
@@ -51,7 +60,7 @@ interface Session {
 
 ### Seed credentials
 
-Documentar en `.env.example` (no secretos reales):
+Variables en `.env.example` (solo local/demo; seed y E2E las consumen):
 
 ```
 SEED_ADMIN_EMAIL=admin@roadie.local
@@ -62,7 +71,8 @@ SEED_ADMIN_PASSWORD=roadie-demo
 
 - Playwright en `e2e/login.spec.ts`
 - CI: levantar Postgres (service container o docker compose), migrate, seed, `yarn build && yarn start`, run tests.
-- Usuario seed para tests = mismo admin demo.
+- Usuario seed para tests = mismo admin demo (`SEED_ADMIN_*`).
+- Assert post-login: sesión resuelve usuario autenticado (p. ej. contenido de itinerary visible, no solo URL).
 
 ## Risks / Trade-offs
 
@@ -77,7 +87,7 @@ SEED_ADMIN_PASSWORD=roadie-demo
 1. Migración Prisma User + Auth tables
 2. Seed admin user
 3. Auth config + API route
-4. Middleware (app redirige a login — breaking)
+4. Proxy (app redirige a login — breaking)
 5. Login UI
 6. Logout en `/profile`
 7. Playwright + CI
@@ -95,7 +105,7 @@ prisma/schema.prisma          # User, Role, Auth.js models
 prisma/seed.ts                # admin user
 lib/auth.ts                   # auth config + helpers
 app/api/auth/[...nextauth]/route.ts
-middleware.ts
+proxy.ts                      # route protection (Next.js 16)
 app/login/page.tsx
 app/login/login-form.tsx      # client component
 e2e/login.spec.ts
