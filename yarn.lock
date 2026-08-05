@@ -12,6 +12,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@auth/core@npm:0.41.3":
+  version: 0.41.3
+  resolution: "@auth/core@npm:0.41.3"
+  dependencies:
+    "@panva/hkdf": "npm:^1.2.1"
+    jose: "npm:^6.0.6"
+    oauth4webapi: "npm:^3.3.0"
+    preact: "npm:10.24.3"
+    preact-render-to-string: "npm:6.5.11"
+  peerDependencies:
+    "@simplewebauthn/browser": ^9.0.1
+    "@simplewebauthn/server": ^9.0.2
+    nodemailer: ^7.0.7 || ^8.0.5
+  peerDependenciesMeta:
+    "@simplewebauthn/browser":
+      optional: true
+    "@simplewebauthn/server":
+      optional: true
+    nodemailer:
+      optional: true
+  checksum: 10c0/efc089fe70102a66f5ba717b49412b56f58d367800d64640092567830a5a211b35f887e00339d614963803990954ad610bd3626697673ba9f9e92b78c2c25ff0
+  languageName: node
+  linkType: hard
+
+"@auth/prisma-adapter@npm:^2.11.3":
+  version: 2.11.3
+  resolution: "@auth/prisma-adapter@npm:2.11.3"
+  dependencies:
+    "@auth/core": "npm:0.41.3"
+  peerDependencies:
+    "@prisma/client": ">=2.26.0 || >=3 || >=4 || >=5 || >=6"
+  checksum: 10c0/812647c27c38c081d0fe3300c685079a744675afa57fdaa4a7f17759c8868c7b6b971c91f00e7969671b239924f561653e243af711a99dd5c6df94bf9bad9395
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/code-frame@npm:7.29.7"
@@ -1585,6 +1620,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@panva/hkdf@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@panva/hkdf@npm:1.2.1"
+  checksum: 10c0/1fabdec9bd2c19b8e88a3fa6fd0c25e25823c5000d9efdf4b6dfe32e9f370f8b9603cf776d120d160bec15fba17e079974cc34f0f52cebb24602cd832dfde19c
+  languageName: node
+  linkType: hard
+
 "@prisma/adapter-pg@npm:^7.9.0":
   version: 7.9.0
   resolution: "@prisma/adapter-pg@npm:7.9.0"
@@ -2106,6 +2148,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 10c0/26165bcd1fd7269f42d7fbe3de318f854a8968de8397e89fc9a423bb3e2da35a52150f382e6323b3367595beb16d9800a6f35971a5599daf76da1742ec3afc25
+  languageName: node
+  linkType: hard
+
+"@types/bcryptjs@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/bcryptjs@npm:3.0.0"
+  dependencies:
+    bcryptjs: "npm:*"
+  checksum: 10c0/5d61ce381736f8252627cf32f2bbc17003c0361c6cf63ac23034a651b9c1edfdbf8f786730816e0b5257a927ffa369658562183a68495eb07ca2ddc77fbb171c
   languageName: node
   linkType: hard
 
@@ -2804,6 +2855,15 @@ __metadata:
   bin:
     baseline-browser-mapping: dist/cli.cjs
   checksum: 10c0/ff489d3ffecd9e440ccabc49401b49f693ecae4a0e73ab71c8c24d43c760399eab8d3eebc9a7798255ef9dc9ed26bb987db813ef9d2044f35455428561f9084b
+  languageName: node
+  linkType: hard
+
+"bcryptjs@npm:*, bcryptjs@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "bcryptjs@npm:3.0.3"
+  bin:
+    bcrypt: bin/bcrypt
+  checksum: 10c0/127c94699f07eab5fbbb89d600c3f0e36ae6fd001e028139740b41fffb62a23a2743523fb88f442ae3308a27d4843b97ccb9e436d78f5c5899be187d0972c6d5
   languageName: node
   linkType: hard
 
@@ -5353,6 +5413,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^6.0.6":
+  version: 6.2.8
+  resolution: "jose@npm:6.2.8"
+  checksum: 10c0/fe4c6a7197a1adab2251b000c1eaaa8b40b6cb7cfbef43dbc9e959dacd43bf2532827b2d5e0f4069731da79d26e4d9e4368ccb26559a42a884b3fe036927e6e1
+  languageName: node
+  linkType: hard
+
 "jose@npm:^6.1.3":
   version: 6.2.3
   resolution: "jose@npm:6.2.3"
@@ -5970,6 +6037,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-auth@npm:^5.0.0-beta.32":
+  version: 5.0.0-beta.32
+  resolution: "next-auth@npm:5.0.0-beta.32"
+  dependencies:
+    "@auth/core": "npm:0.41.3"
+  peerDependencies:
+    "@simplewebauthn/browser": ^9.0.1
+    "@simplewebauthn/server": ^9.0.2
+    next: ^14.0.0-0 || ^15.0.0 || ^16.0.0
+    nodemailer: ^7.0.7 || ^8.0.5
+    react: ^18.2.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@simplewebauthn/browser":
+      optional: true
+    "@simplewebauthn/server":
+      optional: true
+    nodemailer:
+      optional: true
+  checksum: 10c0/f3000d6a412eab0e8cfb992eeed88882f15a2672cda3ffeda235f335a1f0809f385bf0d6f2fc58b4cb16e3d5e270124d40a9a952a3f5eca6e111bb7a7e1d2215
+  languageName: node
+  linkType: hard
+
 "next@npm:16.2.9":
   version: 16.2.9
   resolution: "next@npm:16.2.9"
@@ -6114,6 +6203,13 @@ __metadata:
     path-key: "npm:^4.0.0"
     unicorn-magic: "npm:^0.3.0"
   checksum: 10c0/b223c8a0dcd608abf95363ea5c3c0ccc3cd877daf0102eaf1b0f2390d6858d8337fbb7c443af2403b067a7d2c116d10691ecd22ab3c5273c44da1ff8d07753bd
+  languageName: node
+  linkType: hard
+
+"oauth4webapi@npm:^3.3.0":
+  version: 3.8.6
+  resolution: "oauth4webapi@npm:3.8.6"
+  checksum: 10c0/479810716702c5616e4a0eb80d4f1c264a6a2b63b04061a62a59375e195d2726e947507ede98e41ee3f9ca800f159621ea371c36f5c4346d015b6ec03e477440
   languageName: node
   linkType: hard
 
@@ -6640,6 +6736,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact-render-to-string@npm:6.5.11":
+  version: 6.5.11
+  resolution: "preact-render-to-string@npm:6.5.11"
+  peerDependencies:
+    preact: ">=10"
+  checksum: 10c0/a68b704c1343756022fb41322154b45e39f6021b940cbc97e86c292627d017d019700339a17d67b42c308b14fc5323fc120c798f785d6a3e993c8f273610bfe2
+  languageName: node
+  linkType: hard
+
+"preact@npm:10.24.3":
+  version: 10.24.3
+  resolution: "preact@npm:10.24.3"
+  checksum: 10c0/c863df6d7be6a660480189762d8a8f2d4148733fc2bb9efbd9d2fd27315d2c7ede850a16077d716c91666c915c0349bd3c9699733e4f08457226a0519f408761
+  languageName: node
+  linkType: hard
+
 "prelude-ls@npm:^1.2.1":
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
@@ -6974,15 +7086,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "roadie-flow-app@workspace:."
   dependencies:
+    "@auth/prisma-adapter": "npm:^2.11.3"
     "@base-ui/react": "npm:^1.5.0"
     "@fission-ai/openspec": "npm:^1.7.0"
     "@prisma/adapter-pg": "npm:^7.9.0"
     "@prisma/client": "npm:^7.8.0"
     "@tailwindcss/postcss": "npm:^4"
+    "@types/bcryptjs": "npm:^3.0.0"
     "@types/node": "npm:^20"
     "@types/pg": "npm:^8.20.0"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
+    bcryptjs: "npm:^3.0.3"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     dotenv: "npm:^17.4.2"
@@ -6993,6 +7108,7 @@ __metadata:
     lint-staged: "npm:^17.0.7"
     lucide-react: "npm:^1.18.0"
     next: "npm:16.2.9"
+    next-auth: "npm:^5.0.0-beta.32"
     pg: "npm:^8.22.0"
     prettier: "npm:^3.8.4"
     prisma: "npm:^7.8.0"

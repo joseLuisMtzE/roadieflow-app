@@ -4,9 +4,10 @@ config();
 config({ path: ".env.local", override: true });
 
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 import { Pool } from "pg";
 
-import { PrismaClient, Status } from "../lib/generated/prisma/client";
+import { PrismaClient, Role, Status } from "../lib/generated/prisma/client";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -32,12 +33,32 @@ function assertSeedAllowed(): void {
   }
 }
 
+function getSeedAdminCredentials(): { email: string; password: string } {
+  const email = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase();
+  const password = process.env.SEED_ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    throw new Error(
+      "SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set in .env.local for the demo seed",
+    );
+  }
+
+  return { email, password };
+}
+
 async function main() {
   assertSeedAllowed();
+
+  const { email: adminEmail, password: adminPassword } =
+    getSeedAdminCredentials();
+  const passwordHash = await bcrypt.hash(adminPassword, 10);
 
   await prisma.logistics.deleteMany();
   await prisma.event.deleteMany();
   await prisma.artist.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.user.deleteMany();
 
   const artist = await prisma.artist.create({
     data: {
@@ -175,10 +196,20 @@ async function main() {
     ],
   });
 
+  const admin = await prisma.user.create({
+    data: {
+      email: adminEmail,
+      passwordHash,
+      role: Role.ADMIN,
+      name: "Admin demo",
+    },
+  });
+
   console.log("Seed OK:", {
     artist: artist.name,
     events: [eventCdmx.city, eventGdl.city, eventMty.city],
     logistics: 8,
+    admin: admin.email,
   });
 }
 
