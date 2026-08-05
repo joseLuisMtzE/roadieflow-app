@@ -3,6 +3,8 @@
 import { config } from "dotenv";
 import { defineConfig } from "prisma/config";
 
+import { getDirectDatabaseUrl } from "./lib/database-url";
+
 // Next.js usa .env.local en desarrollo; Prisma CLI también debe leerlo.
 config();
 config({ path: ".env.local", override: true });
@@ -14,6 +16,6 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: getDirectDatabaseUrl(),
   },
 });

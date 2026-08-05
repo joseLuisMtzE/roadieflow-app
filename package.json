@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "prisma migrate deploy && tsx prisma/bootstrap-preview.ts && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -17,7 +18,10 @@
     "db:validate": "prisma validate",
     "db:ping": "echo 'SELECT 1;' | prisma db execute --stdin",
     "db:seed": "prisma db seed",
+    "db:bootstrap-preview": "tsx prisma/bootstrap-preview.ts",
     "openspec": "openspec",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "postinstall": "prisma generate",
     "prepare": "husky"
   },
@@ -29,23 +33,29 @@
     "*.{json,css,md}": "prettier --write"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.3",
     "@base-ui/react": "^1.5.0",
     "@prisma/adapter-pg": "^7.9.0",
     "@prisma/client": "^7.8.0",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.18.0",
     "next": "16.2.9",
+    "next-auth": "^5.0.0-beta.32",
     "pg": "^8.22.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "shadcn": "^4.11.0",
     "tailwind-merge": "^3.6.0",
-    "tw-animate-css": "^1.4.0"
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@fission-ai/openspec": "^1.7.0",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",
     "@types/pg": "^8.20.0",
     "@types/react": "^19",

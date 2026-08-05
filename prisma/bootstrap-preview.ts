@@ -7,58 +7,38 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import { Pool } from "pg";
 
+import { getDirectDatabaseUrl } from "../lib/database-url";
 import { PrismaClient, Role, Status } from "../lib/generated/prisma/client";
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error(
-    "DATABASE_URL no está definida — copia .env.example a .env.local",
+function shouldBootstrap(): boolean {
+  if (process.env.VERCEL_ENV === "production") {
+    return false;
+  }
+
+  return (
+    process.env.VERCEL_ENV === "preview" ||
+    process.env.SEED_DEMO_DATA === "true"
   );
 }
 
-const pool = new Pool({ connectionString });
-pool.on("error", (error) => {
-  console.error("Unexpected idle PostgreSQL client error", error);
-});
-const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
-
-function assertSeedAllowed(): void {
-  if (process.env.NODE_ENV === "production") {
-    throw new Error("Refusing to run the destructive demo seed in production");
-  }
-  if (process.env.SEED_DEMO_DATA !== "true") {
-    throw new Error(
-      "Set SEED_DEMO_DATA=true in .env.local to run the destructive demo seed",
-    );
-  }
-}
-
-function getSeedAdminCredentials(): { email: string; password: string } {
+function getAdminCredentials(): { email: string; password: string } {
   const email = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.SEED_ADMIN_PASSWORD;
 
   if (!email || !password) {
     throw new Error(
-      "SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set in .env.local for the demo seed",
+      "SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set for preview bootstrap",
     );
   }
 
   return { email, password };
 }
 
-async function main() {
-  assertSeedAllowed();
-
-  const { email: adminEmail, password: adminPassword } =
-    getSeedAdminCredentials();
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
-
-  await prisma.logistics.deleteMany();
-  await prisma.event.deleteMany();
-  await prisma.artist.deleteMany();
-  await prisma.session.deleteMany();
-  await prisma.account.deleteMany();
-  await prisma.user.deleteMany();
+async function seedDemoTour(prisma: PrismaClient): Promise<void> {
+  const artistCount = await prisma.artist.count();
+  if (artistCount > 0) {
+    return;
+  }
 
   const artist = await prisma.artist.create({
     data: {
@@ -196,31 +176,51 @@ async function main() {
     ],
   });
 
-  const admin = await prisma.user.create({
-    data: {
-      email: adminEmail,
+  console.log("Preview bootstrap: demo tour created");
+}
+
+async function ensureAdminUser(prisma: PrismaClient): Promise<void> {
+  const { email, password } = getAdminCredentials();
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  await prisma.user.upsert({
+    where: { email },
+    create: {
+      email,
       passwordHash,
       role: Role.ADMIN,
       name: "Admin demo",
     },
+    update: {},
   });
 
-  console.log("Seed OK:", {
-    artist: artist.name,
-    events: [eventCdmx.city, eventGdl.city, eventMty.city],
-    logistics: 8,
-    admin: admin.email,
-  });
+  console.log("Preview bootstrap: admin ready", email);
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-    await pool.end();
-  })
-  .catch(async (error) => {
-    console.error(error);
-    await prisma.$disconnect();
-    await pool.end();
-    process.exit(1);
+async function main(): Promise<void> {
+  if (!shouldBootstrap()) {
+    console.log("Preview bootstrap: skipped");
+    return;
+  }
+
+  const connectionString = getDirectDatabaseUrl();
+  const pool = new Pool({ connectionString });
+  pool.on("error", (error) => {
+    console.error("Unexpected idle PostgreSQL client error", error);
   });
+
+  const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
+
+  try {
+    await seedDemoTour(prisma);
+    await ensureAdminUser(prisma);
+  } finally {
+    await prisma.$disconnect();
+    await pool.end();
+  }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
