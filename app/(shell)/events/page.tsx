@@ -67,8 +67,8 @@ export default async function EventsPage() {
                 aria-label={`Ver evento ${event.title}`}
                 className="absolute inset-0 rounded-2xl"
               />
-              <div className="relative flex items-start justify-between gap-3">
-                <div className="pointer-events-none min-w-0 flex-1 space-y-1">
+              <div className="relative flex items-start justify-between gap-3 pointer-events-none">
+                <div className="min-w-0 flex-1 space-y-1">
                   <h2 className="truncate text-base font-medium">
                     {event.title}
                   </h2>
@@ -87,7 +87,7 @@ export default async function EventsPage() {
                     href={`/events/${event.id}/edit`}
                     variant="outline"
                     size="sm"
-                    className="relative z-10"
+                    className="pointer-events-auto relative z-10"
                   >
                     Editar
                   </ButtonLink>
