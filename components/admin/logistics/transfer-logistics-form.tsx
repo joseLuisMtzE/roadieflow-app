@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 
-import { createLogistics } from "@/app/actions/logistics";
+import { createLogistics, updateLogistics } from "@/app/actions/logistics";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,15 +36,31 @@ const transferFormSchema = z
 
 type TransferLogisticsFormProps = {
   eventId: string;
+  mode?: "create" | "edit";
+  logisticsId?: string;
+  defaultValues?: {
+    status: StatusValue;
+    startTime: string;
+    from: string;
+    to: string;
+    vehicle: string;
+  };
 };
 
-export function TransferLogisticsForm({ eventId }: TransferLogisticsFormProps) {
+export function TransferLogisticsForm({
+  eventId,
+  mode = "create",
+  logisticsId,
+  defaultValues,
+}: TransferLogisticsFormProps) {
   const router = useRouter();
-  const [status, setStatus] = useState<StatusValue>(Status.PENDING);
-  const [startTime, setStartTime] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [vehicle, setVehicle] = useState("");
+  const [status, setStatus] = useState<StatusValue>(
+    defaultValues?.status ?? Status.PENDING,
+  );
+  const [startTime, setStartTime] = useState(defaultValues?.startTime ?? "");
+  const [from, setFrom] = useState(defaultValues?.from ?? "");
+  const [to, setTo] = useState(defaultValues?.to ?? "");
+  const [vehicle, setVehicle] = useState(defaultValues?.vehicle ?? "");
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -68,10 +84,15 @@ export function TransferLogisticsForm({ eventId }: TransferLogisticsFormProps) {
 
     setLoading(true);
     try {
-      const result = await createLogistics({
+      const payload = {
         type: LogisticsType.TRANSFER,
         ...parsed.data,
-      });
+      };
+
+      const result =
+        mode === "edit" && logisticsId
+          ? await updateLogistics({ ...payload, id: logisticsId })
+          : await createLogistics(payload);
 
       if (!result.ok) {
         setSubmitError(result.error);
@@ -168,7 +189,11 @@ export function TransferLogisticsForm({ eventId }: TransferLogisticsFormProps) {
       ) : null}
 
       <Button type="submit" size="lg" disabled={loading} className="w-full">
-        {loading ? "Guardando…" : "Añadir traslado"}
+        {loading
+          ? "Guardando…"
+          : mode === "edit"
+            ? "Guardar cambios"
+            : "Añadir traslado"}
       </Button>
     </form>
   );

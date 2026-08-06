@@ -11,6 +11,7 @@ import {
   type Status,
 } from "@/lib/generated/prisma/client";
 import { cn } from "@/lib/utils";
+import { logisticsEditPath } from "@/lib/logistics/routes";
 
 export const dynamic = "force-dynamic";
 
@@ -178,21 +179,36 @@ export default async function EventDetailPage({
                       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
                         {meta.label}
                       </p>
-                      <span
-                        className={cn(
-                          "shrink-0 rounded-full px-2 py-0.5 font-mono text-[0.65rem] tracking-wide uppercase",
-                          item.status === "CONFIRMED" &&
-                            "bg-primary/15 text-primary",
-                          item.status === "PENDING" &&
-                            "bg-card text-muted-foreground",
-                          item.status === "COMPLETED" &&
-                            "bg-secondary/20 text-secondary",
-                          item.status === "CANCELED" &&
-                            "bg-destructive/15 text-destructive",
-                        )}
-                      >
-                        {statusLabel[item.status]}
-                      </span>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <span
+                          className={cn(
+                            "rounded-full px-2 py-0.5 font-mono text-[0.65rem] tracking-wide uppercase",
+                            item.status === "CONFIRMED" &&
+                              "bg-primary/15 text-primary",
+                            item.status === "PENDING" &&
+                              "bg-card text-muted-foreground",
+                            item.status === "COMPLETED" &&
+                              "bg-secondary/20 text-secondary",
+                            item.status === "CANCELED" &&
+                              "bg-destructive/15 text-destructive",
+                          )}
+                        >
+                          {statusLabel[item.status]}
+                        </span>
+                        {isAdmin ? (
+                          <ButtonLink
+                            href={logisticsEditPath(
+                              event.id,
+                              item.id,
+                              item.type,
+                            )}
+                            variant="outline"
+                            size="sm"
+                          >
+                            Editar
+                          </ButtonLink>
+                        ) : null}
+                      </div>
                     </div>
                     <p className="text-base font-medium">
                       {logisticsSummary(item.type, details)}

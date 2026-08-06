@@ -13,12 +13,13 @@ Shell PWA-ready con bottom navigation persistente en todas las rutas core.
 
 Rutas admin (M3, no en bottom nav — ver [Guía CRUD Admin](./admin-crud.md)):
 
-| Ruta                                                 | Página                   |
-| ---------------------------------------------------- | ------------------------ |
-| `/artists`                                           | Listado de artistas      |
-| `/artists/new`, `/artists/[id]/edit`                 | CRUD artista (ADMIN)     |
-| `/events/new`, `/events/[id]`, `/events/[id]/edit`   | CRUD evento (ADMIN)      |
-| `/events/[id]/logistics/{flight,hotel,transfer}/new` | Añadir logística (ADMIN) |
+| Ruta                                                                | Página                   |
+| ------------------------------------------------------------------- | ------------------------ |
+| `/artists`                                                          | Listado de artistas      |
+| `/artists/new`, `/artists/[id]/edit`                                | CRUD artista (ADMIN)     |
+| `/events/new`, `/events/[id]`, `/events/[id]/edit`                  | CRUD evento (ADMIN)      |
+| `/events/[id]/logistics/{flight,hotel,transfer}/new`                | Añadir logística (ADMIN) |
+| `/events/[id]/logistics/{flight,hotel,transfer}/[logisticsId]/edit` | Editar logística (ADMIN) |
 
 Las rutas viven bajo el route group `(shell)`, que no afecta la URL.
 

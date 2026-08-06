@@ -106,6 +106,18 @@ Campos comunes a los tres tipos:
 
 Tras guardar → redirect al detalle del evento (`/events/[id]`) y `revalidatePath` en `/itinerary`.
 
+### Editar logística
+
+En el detalle del evento, cada ítem tiene **Editar** (solo ADMIN):
+
+| Tipo     | Ruta de edición                                      |
+| -------- | ---------------------------------------------------- |
+| Vuelo    | `/events/[id]/logistics/flight/[logisticsId]/edit`   |
+| Hotel    | `/events/[id]/logistics/hotel/[logisticsId]/edit`    |
+| Traslado | `/events/[id]/logistics/transfer/[logisticsId]/edit` |
+
+Mismos campos que al crear; el formulario viene precargado. Guardar → `updateLogistics` → redirect al detalle del evento.
+
 ---
 
 ## Validación y errores

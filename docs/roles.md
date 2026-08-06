@@ -37,13 +37,11 @@ Todas las rutas `(shell)` requieren sesión activa (`proxy.ts`). Sin login → r
 
 ### Mutaciones (Server Actions)
 
-| Recurso       | create | update  | delete |
-| ------------- | :----: | :-----: | :----: |
-| **Artist**    | ADMIN  |  ADMIN  | ❌ M3  |
-| **Event**     | ADMIN  |  ADMIN  | ❌ M3  |
-| **Logistics** | ADMIN  | ADMIN\* | ❌ M3  |
-
-\* `updateLogistics` existe en server; **UI de edición** aún no expuesta (solo create en M3).
+| Recurso       | create | update | delete |
+| ------------- | :----: | :----: | :----: |
+| **Artist**    | ADMIN  | ADMIN  | ❌ M3  |
+| **Event**     | ADMIN  | ADMIN  | ❌ M3  |
+| **Logistics** | ADMIN  | ADMIN  | ❌ M3  |
 
 | Rol            | create/update tour entities         |
 | -------------- | ----------------------------------- |
@@ -59,6 +57,7 @@ Todas las rutas `(shell)` requieren sesión activa (`proxy.ts`). Sin login → r
 | Nuevo / Editar artista            |  ✅   |            ❌            |
 | Nuevo / Editar evento             |  ✅   |            ❌            |
 | Añadir vuelo / hotel / traslado   |  ✅   |            ❌            |
+| Editar logística existente        |  ✅   |            ❌            |
 | Listados y detalle (solo lectura) |  ✅   |            ✅            |
 
 Rutas admin directas (`/artists/new`, `/events/new`, …) redirigen a listados si el rol no es `ADMIN`.

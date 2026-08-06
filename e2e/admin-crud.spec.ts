@@ -10,6 +10,7 @@ test.describe("admin CRUD (M3)", () => {
   const eventTitle = `E2E Show ${runId}`;
   const transferFrom = `Origen E2E ${runId}`;
   const transferTo = `Destino E2E ${runId}`;
+  const transferToEdited = `${transferTo} (editado)`;
 
   test.beforeEach(async ({ page }) => {
     await loginAsAdmin(page);
@@ -59,12 +60,34 @@ test.describe("admin CRUD (M3)", () => {
     ).toBeVisible();
   });
 
+  test("edits transfer logistics on event detail", async ({ page }) => {
+    await page.goto("/events", { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: `Ver evento ${eventTitle}` }).click();
+
+    const transferCard = page
+      .locator("article")
+      .filter({ hasText: `${transferFrom} → ${transferTo}` });
+    await transferCard.getByRole("button", { name: "Editar" }).click();
+
+    await expect(page).toHaveURL(/\/logistics\/transfer\/[^/]+\/edit$/, {
+      timeout: 15_000,
+    });
+
+    await page.getByLabel("Destino").fill(transferToEdited);
+    await page.getByRole("button", { name: "Guardar cambios" }).click();
+
+    await expect(page).toHaveURL(/\/events\/[^/]+$/, { timeout: 15_000 });
+    await expect(
+      page.getByText(`${transferFrom} → ${transferToEdited}`),
+    ).toBeVisible();
+  });
+
   test("shows new event and transfer on itinerary", async ({ page }) => {
     await page.goto("/itinerary", { waitUntil: "networkidle" });
 
     await expect(page.getByText(eventTitle, { exact: true })).toBeVisible();
     await expect(
-      page.getByText(`${transferFrom} → ${transferTo}`, { exact: true }),
+      page.getByText(`${transferFrom} → ${transferToEdited}`, { exact: true }),
     ).toBeVisible();
   });
 });

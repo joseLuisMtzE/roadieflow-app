@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 
-import { createLogistics } from "@/app/actions/logistics";
+import { createLogistics, updateLogistics } from "@/app/actions/logistics";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,16 +36,33 @@ const hotelFormSchema = z
 
 type HotelLogisticsFormProps = {
   eventId: string;
+  mode?: "create" | "edit";
+  logisticsId?: string;
+  defaultValues?: {
+    status: StatusValue;
+    startTime: string;
+    name: string;
+    address: string;
+    checkIn: string;
+    checkOut: string;
+  };
 };
 
-export function HotelLogisticsForm({ eventId }: HotelLogisticsFormProps) {
+export function HotelLogisticsForm({
+  eventId,
+  mode = "create",
+  logisticsId,
+  defaultValues,
+}: HotelLogisticsFormProps) {
   const router = useRouter();
-  const [status, setStatus] = useState<StatusValue>(Status.PENDING);
-  const [startTime, setStartTime] = useState("");
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
+  const [status, setStatus] = useState<StatusValue>(
+    defaultValues?.status ?? Status.PENDING,
+  );
+  const [startTime, setStartTime] = useState(defaultValues?.startTime ?? "");
+  const [name, setName] = useState(defaultValues?.name ?? "");
+  const [address, setAddress] = useState(defaultValues?.address ?? "");
+  const [checkIn, setCheckIn] = useState(defaultValues?.checkIn ?? "");
+  const [checkOut, setCheckOut] = useState(defaultValues?.checkOut ?? "");
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -69,10 +86,15 @@ export function HotelLogisticsForm({ eventId }: HotelLogisticsFormProps) {
 
     setLoading(true);
     try {
-      const result = await createLogistics({
+      const payload = {
         type: LogisticsType.HOTEL,
         ...parsed.data,
-      });
+      };
+
+      const result =
+        mode === "edit" && logisticsId
+          ? await updateLogistics({ ...payload, id: logisticsId })
+          : await createLogistics(payload);
 
       if (!result.ok) {
         setSubmitError(result.error);
@@ -184,7 +206,11 @@ export function HotelLogisticsForm({ eventId }: HotelLogisticsFormProps) {
       ) : null}
 
       <Button type="submit" size="lg" disabled={loading} className="w-full">
-        {loading ? "Guardando…" : "Añadir hotel"}
+        {loading
+          ? "Guardando…"
+          : mode === "edit"
+            ? "Guardar cambios"
+            : "Añadir hotel"}
       </Button>
     </form>
   );

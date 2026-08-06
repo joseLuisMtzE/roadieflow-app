@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 
-import { createLogistics } from "@/app/actions/logistics";
+import { createLogistics, updateLogistics } from "@/app/actions/logistics";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,17 +36,37 @@ const flightFormSchema = z
 
 type FlightLogisticsFormProps = {
   eventId: string;
+  mode?: "create" | "edit";
+  logisticsId?: string;
+  defaultValues?: {
+    status: StatusValue;
+    startTime: string;
+    airline: string;
+    flightNumber: string;
+    from: string;
+    to: string;
+    note?: string;
+  };
 };
 
-export function FlightLogisticsForm({ eventId }: FlightLogisticsFormProps) {
+export function FlightLogisticsForm({
+  eventId,
+  mode = "create",
+  logisticsId,
+  defaultValues,
+}: FlightLogisticsFormProps) {
   const router = useRouter();
-  const [status, setStatus] = useState<StatusValue>(Status.PENDING);
-  const [startTime, setStartTime] = useState("");
-  const [airline, setAirline] = useState("");
-  const [flightNumber, setFlightNumber] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [note, setNote] = useState("");
+  const [status, setStatus] = useState<StatusValue>(
+    defaultValues?.status ?? Status.PENDING,
+  );
+  const [startTime, setStartTime] = useState(defaultValues?.startTime ?? "");
+  const [airline, setAirline] = useState(defaultValues?.airline ?? "");
+  const [flightNumber, setFlightNumber] = useState(
+    defaultValues?.flightNumber ?? "",
+  );
+  const [from, setFrom] = useState(defaultValues?.from ?? "");
+  const [to, setTo] = useState(defaultValues?.to ?? "");
+  const [note, setNote] = useState(defaultValues?.note ?? "");
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -70,10 +90,15 @@ export function FlightLogisticsForm({ eventId }: FlightLogisticsFormProps) {
 
     setLoading(true);
     try {
-      const result = await createLogistics({
+      const payload = {
         type: LogisticsType.FLIGHT,
         ...parsed.data,
-      });
+      };
+
+      const result =
+        mode === "edit" && logisticsId
+          ? await updateLogistics({ ...payload, id: logisticsId })
+          : await createLogistics(payload);
 
       if (!result.ok) {
         setSubmitError(result.error);
@@ -196,7 +221,11 @@ export function FlightLogisticsForm({ eventId }: FlightLogisticsFormProps) {
       ) : null}
 
       <Button type="submit" size="lg" disabled={loading} className="w-full">
-        {loading ? "Guardando…" : "Añadir vuelo"}
+        {loading
+          ? "Guardando…"
+          : mode === "edit"
+            ? "Guardar cambios"
+            : "Añadir vuelo"}
       </Button>
     </form>
   );
