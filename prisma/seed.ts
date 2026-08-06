@@ -46,12 +46,31 @@ function getSeedAdminCredentials(): { email: string; password: string } {
   return { email, password };
 }
 
+function getSeedRoadStaffCredentials(): { email: string; password: string } {
+  const email = (process.env.SEED_ROAD_STAFF_EMAIL ?? "roadie@roadie.local")
+    .trim()
+    .toLowerCase();
+  const password =
+    process.env.SEED_ROAD_STAFF_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD;
+
+  if (!password) {
+    throw new Error(
+      "SEED_ROAD_STAFF_PASSWORD or SEED_ADMIN_PASSWORD must be set in .env.local for the demo seed",
+    );
+  }
+
+  return { email, password };
+}
+
 async function main() {
   assertSeedAllowed();
 
   const { email: adminEmail, password: adminPassword } =
     getSeedAdminCredentials();
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
+  const { email: roadStaffEmail, password: roadStaffPassword } =
+    getSeedRoadStaffCredentials();
+  const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
+  const roadStaffPasswordHash = await bcrypt.hash(roadStaffPassword, 10);
 
   await prisma.logistics.deleteMany();
   await prisma.event.deleteMany();
@@ -199,9 +218,18 @@ async function main() {
   const admin = await prisma.user.create({
     data: {
       email: adminEmail,
-      passwordHash,
+      passwordHash: adminPasswordHash,
       role: Role.ADMIN,
       name: "Admin demo",
+    },
+  });
+
+  const roadStaff = await prisma.user.create({
+    data: {
+      email: roadStaffEmail,
+      passwordHash: roadStaffPasswordHash,
+      role: Role.ROAD_STAFF,
+      name: "Roadie demo",
     },
   });
 
@@ -210,6 +238,7 @@ async function main() {
     events: [eventCdmx.city, eventGdl.city, eventMty.city],
     logistics: 8,
     admin: admin.email,
+    roadStaff: roadStaff.email,
   });
 }
 

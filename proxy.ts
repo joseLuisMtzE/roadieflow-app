@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 import { proxyAuth } from "@/lib/auth.proxy";
 
-const protectedPaths = ["/", "/itinerary", "/events", "/profile"];
+const protectedPaths = ["/", "/itinerary", "/events", "/artists", "/profile"];
 
 function isProtectedPath(pathname: string): boolean {
   return protectedPaths.some(
@@ -29,5 +29,11 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/itinerary/:path*", "/events/:path*", "/profile/:path*"],
+  matcher: [
+    "/",
+    "/itinerary/:path*",
+    "/events/:path*",
+    "/artists/:path*",
+    "/profile/:path*",
+  ],
 };

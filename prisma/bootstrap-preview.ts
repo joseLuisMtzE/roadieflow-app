@@ -34,6 +34,22 @@ function getAdminCredentials(): { email: string; password: string } {
   return { email, password };
 }
 
+function getRoadStaffCredentials(): { email: string; password: string } {
+  const email = (process.env.SEED_ROAD_STAFF_EMAIL ?? "roadie@roadie.local")
+    .trim()
+    .toLowerCase();
+  const password =
+    process.env.SEED_ROAD_STAFF_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD;
+
+  if (!password) {
+    throw new Error(
+      "SEED_ROAD_STAFF_PASSWORD or SEED_ADMIN_PASSWORD must be set for preview bootstrap",
+    );
+  }
+
+  return { email, password };
+}
+
 async function seedDemoTour(prisma: PrismaClient): Promise<void> {
   const artistCount = await prisma.artist.count();
   if (artistCount > 0) {
@@ -197,6 +213,24 @@ async function ensureAdminUser(prisma: PrismaClient): Promise<void> {
   console.log("Preview bootstrap: admin ready", email);
 }
 
+async function ensureRoadStaffUser(prisma: PrismaClient): Promise<void> {
+  const { email, password } = getRoadStaffCredentials();
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  await prisma.user.upsert({
+    where: { email },
+    create: {
+      email,
+      passwordHash,
+      role: Role.ROAD_STAFF,
+      name: "Roadie demo",
+    },
+    update: {},
+  });
+
+  console.log("Preview bootstrap: road staff ready", email);
+}
+
 async function main(): Promise<void> {
   if (!shouldBootstrap()) {
     console.log("Preview bootstrap: skipped");
@@ -214,6 +248,7 @@ async function main(): Promise<void> {
   try {
     await seedDemoTour(prisma);
     await ensureAdminUser(prisma);
+    await ensureRoadStaffUser(prisma);
   } finally {
     await prisma.$disconnect();
     await pool.end();

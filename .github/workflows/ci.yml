@@ -56,6 +56,8 @@ jobs:
       SEED_DEMO_DATA: "true"
       SEED_ADMIN_EMAIL: admin@roadie.local
       SEED_ADMIN_PASSWORD: roadie-demo
+      SEED_ROAD_STAFF_EMAIL: roadie@roadie.local
+      SEED_ROAD_STAFF_PASSWORD: roadie-demo
     steps:
       - uses: actions/checkout@v4
 
@@ -81,5 +83,5 @@ jobs:
       - name: Build application
         run: yarn build
 
-      - name: E2E login flow
+      - name: E2E tests
         run: yarn test:e2e

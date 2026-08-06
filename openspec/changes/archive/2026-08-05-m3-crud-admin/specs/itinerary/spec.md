@@ -1,8 +1,6 @@
-## Purpose
+# Delta for Itinerary
 
-Read-only chronological itinerary timeline for tour events and logistics (M1).
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Itinerary page
 
@@ -39,13 +37,3 @@ The system SHALL provide a route `/itinerary` that displays a chronological time
 - **GIVEN** a viewport of 375px width
 - **WHEN** the user scrolls the itinerary
 - **THEN** all content is readable without horizontal scroll
-
-### Requirement: Data source
-
-The system SHALL load itinerary data from PostgreSQL via Prisma in a Server Component.
-
-#### Scenario: Dynamic rendering
-
-- **GIVEN** the itinerary page
-- **WHEN** the page is requested
-- **THEN** data is fetched at request time (not statically cached at build)
