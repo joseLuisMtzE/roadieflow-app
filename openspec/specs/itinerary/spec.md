@@ -6,7 +6,7 @@ Read-only chronological itinerary timeline for tour events and logistics (M1).
 
 ### Requirement: Itinerary page
 
-The system SHALL provide a route `/itinerary` that displays a chronological timeline of tour events and logistics **only to authenticated users**.
+The system SHALL provide a route `/itinerary` that displays a chronological timeline of tour events and logistics **only to authenticated users**, reflecting the latest data after admin CRUD operations.
 
 #### Scenario: View timeline with seed data
 
@@ -21,6 +21,12 @@ The system SHALL provide a route `/itinerary` that displays a chronological time
 - **GIVEN** no active session
 - **WHEN** the user opens `/itinerary`
 - **THEN** the user is redirected to `/login`
+
+#### Scenario: Reflect new logistics after admin create
+
+- **GIVEN** role ADMIN created new logistics for an event
+- **WHEN** any authenticated user opens `/itinerary` after revalidation
+- **THEN** the new logistics item appears in the timeline
 
 #### Scenario: Loading state
 

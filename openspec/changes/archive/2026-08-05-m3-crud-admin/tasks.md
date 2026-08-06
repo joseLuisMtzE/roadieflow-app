@@ -25,7 +25,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 - [x] 2.2 Server Actions `createArtist`, `updateArtist` en `app/actions/artist.ts`
 - [x] 2.3 UI móvil: formulario crear/editar artista (ADMIN only)
 - [x] 2.4 `revalidatePath` tras mutación exitosa
-- [ ] 2.5 Verificar: admin crea artista y persiste en DB
+- [x] 2.5 Verificar: admin crea artista y persiste en DB
 
 **Rama:** `86ba56gpw-crud-artist`
 **Depende de:** 1.x
@@ -38,7 +38,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 - [x] 3.2 Server Actions create/update Event con `artistId`
 - [x] 3.3 UI: formulario evento móvil + selector de artista
 - [x] 3.4 Listado o acceso desde `/events` hacia detalle/edición
-- [ ] 3.5 Verificar: evento nuevo visible en itinerary tras revalidate
+- [x] 3.5 Verificar: evento nuevo visible en itinerary tras revalidate
 
 **Rama:** `86ba56gqh-crud-event`
 **Depende de:** 1.x, 2.x (artist selector)
@@ -50,7 +50,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 - [x] 4.1 Schemas `flight`, `hotel`, `transfer` en `lib/schemas/logistics/`
 - [x] 4.2 Discriminated union por `LogisticsType` para `details`
 - [x] 4.3 Schema base logistics (type, status, startTime, eventId)
-- [ ] 4.4 Tests manuales o unit smoke: payload inválido rechazado
+- [x] 4.4 Tests manuales o unit smoke: payload inválido rechazado
 
 **Rama:** `86ba56gqy-logistics-zod`
 **Depende de:** 1.x
@@ -62,7 +62,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 - [x] 5.1 Actions `createLogistics`, `updateLogistics` con validación Zod
 - [x] 5.2 `assertCan` ADMIN en cada action
 - [x] 5.3 `revalidatePath("/itinerary")` y ruta de evento
-- [ ] 5.4 Verificar: logistics creado aparece en query de itinerary
+- [x] 5.4 Verificar: logistics creado aparece en query de itinerary
 
 **Rama:** `86ba56grk-logistics-actions`
 **Depende de:** 4.x
@@ -74,7 +74,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 - [x] 6.1 Form FLIGHT con campos del schema (aerolínea, número, from/to, note)
 - [x] 6.2 Estados loading/error; submit vía Server Action
 - [x] 6.3 Touch targets y Tactical Elegance
-- [ ] 6.4 Verificar en viewport 375px
+- [x] 6.4 Verificar en viewport 375px
 
 **Rama:** `86ba56gtd-ui-flight-form`
 **Depende de:** 5.x
@@ -85,7 +85,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 
 - [x] 7.1 Form HOTEL (name, address, checkIn, checkOut)
 - [x] 7.2 Mismo patrón loading/error que vuelo
-- [ ] 7.3 Verificar persistencia y lista en evento
+- [x] 7.3 Verificar persistencia y lista en evento
 
 **Rama:** `86ba56gu4-ui-hotel-form`
 **Depende de:** 5.x
@@ -97,7 +97,7 @@ Implementar en orden. **Una rama ClickUp por sección.**
 - [x] 8.1 Form TRANSFER (from, to, vehicle)
 - [x] 8.2 Página detalle evento con lista de logistics por tipo/status
 - [x] 8.3 Links/actions para añadir vuelo/hotel/traslado (ADMIN)
-- [ ] 8.4 Verificar flujo completo: crear traslado → lista → itinerary
+- [x] 8.4 Verificar flujo completo: crear traslado → lista → itinerary
 
 **Rama:** `86ba56guw-transfer-event-detail`
 **Depende de:** 6.x, 7.x
@@ -106,4 +106,4 @@ Implementar en orden. **Una rama ClickUp por sección.**
 
 ## Post-milestone
 
-- [ ] `/opsx:archive m3-crud-admin` — merge deltas a `openspec/specs/` tras merge en main
+- [x] `/opsx:archive m3-crud-admin` — merge deltas a `openspec/specs/` tras merge en main
